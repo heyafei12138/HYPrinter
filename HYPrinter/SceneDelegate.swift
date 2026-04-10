@@ -15,14 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
 
-//        let tabBarController = MainTabBarController()
-//        let rootNavigationController = UINavigationController(rootViewController: tabBarController)
-//        rootNavigationController.setNavigationBarHidden(true, animated: false)
-//
-//        let window = UIWindow(windowScene: windowScene)
-//        window.rootViewController = rootNavigationController
-//        window.makeKeyAndVisible()
-//        self.window = window
+        let tabBarController = MainTabbarVC()
+     
+
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+        self.window = window
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -9,7 +9,7 @@
 import UIKit
 import SafariServices
 
-open class BaseController: UIViewController {
+open class BaseViewController: UIViewController {
     
     // MARK: - Navigation Display
     
@@ -87,7 +87,7 @@ open class BaseController: UIViewController {
 }
 
 // MARK: - Setup
-extension BaseController {
+extension BaseViewController {
     
     private func initializeAppearance() {
         view.backgroundColor = kBgColor
@@ -126,7 +126,7 @@ extension BaseController {
 }
 
 // MARK: - Action
-extension BaseController {
+extension BaseViewController {
     
     open func handleBackEvent() {
         popCurrentController()

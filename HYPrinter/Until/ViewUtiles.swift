@@ -27,3 +27,11 @@ var kNotchScreen: Bool {
 let kmainColor = UIColor(hexString: "#2F80ED")
 let kSubColor = UIColor(hexString: "#5BC0BE")
 let kBgColor = UIColor(hexString: "#F6F8FC")
+
+
+
+
+@inline(__always)
+func kmiddleFont(fontSize: CGFloat) -> UIFont {
+    UIFont.systemFont(ofSize: fontSize, weight: .medium)
+}
