@@ -90,7 +90,7 @@ open class BaseController: UIViewController {
 extension BaseController {
     
     private func initializeAppearance() {
-        view.backgroundColor = .hexStringColor(hexString:"#ECEFF7")
+        view.backgroundColor = kBgColor
     }
     
     /// 预留给子类扩展 UI

@@ -23,3 +23,7 @@ let kTabbarHeight = jk_kTabbarFrameH
 var kNotchScreen: Bool {
     return kStatusBarHeight > 20 && kBottomSafeHeight > 0
 }
+
+let kmainColor = UIColor(hexString: "#2F80ED")
+let kSubColor = UIColor(hexString: "#5BC0BE")
+let kBgColor = UIColor(hexString: "#F6F8FC")
