@@ -238,8 +238,8 @@ open class KKNavigationView: UIView {
     
     private lazy var bottomLineView: UIView = {
         let line = UIView()
-        line.backgroundColor = .gray
-        line.isHidden = true
+        line.backgroundColor = UIColor(hexString: "#DDDDDD")
+        line.isHidden = false
         return line
     }()
     

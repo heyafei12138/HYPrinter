@@ -8,22 +8,40 @@
 import UIKit
 
 class MineVC: BaseViewController {
+    
+    var pageHeaderTitle: String = "掌上打印" {
+        didSet {
+            titleLabel.text = pageHeaderTitle
+        }
+    }
+    
+    override var shouldHideNavigationBar: Bool {
+        get { true }
+        set { }
+    }
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 30)
+        label.textColor = .black
+        return label
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func buildSubviews() {
+        super.buildSubviews()
+        
+        titleLabel.text = pageHeaderTitle
+        view.addSubview(titleLabel)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().inset(20)
+        }
     }
-    */
-
 }
+

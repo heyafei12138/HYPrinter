@@ -15,13 +15,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
 
-        let tabBarController = MainTabbarVC()
-     
-
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = tabBarController
+        let launchTransitionVC = LaunchTransitionVC()
+        launchTransitionVC.onFinish = { [weak self] in
+            self?.showMainTabbar(animated: true)
+        }
+        
+        window.rootViewController = launchTransitionVC
         window.makeKeyAndVisible()
         self.window = window
+    }
+
+    private func showMainTabbar(animated: Bool) {
+        let tabBarController = MainTabbarVC()
+        
+        guard animated, let window else {
+            self.window?.rootViewController = tabBarController
+            return
+        }
+        
+        UIView.transition(with: window,
+                          duration: 0.25,
+                          options: [.transitionCrossDissolve, .curveEaseInOut]) {
+            window.rootViewController = tabBarController
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

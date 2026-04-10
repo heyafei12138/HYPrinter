@@ -9,7 +9,18 @@ import Foundation
 import UIKit
 import VisionKit
 
+protocol DocumentScanResultReceiving: AnyObject {
+    func didReceiveScannedImages(_ images: [UIImage])
+}
+
+
 final class MainTabbarVC: UITabBarController {
+    
+    // MARK: - Public Property
+
+    
+    /// 扫描完成后的图片数组回调
+    var onScannedImages: (([UIImage]) -> Void)?
     
     // MARK: - Private View
     
@@ -24,6 +35,11 @@ final class MainTabbarVC: UITabBarController {
     
     /// 记录是否完成一次性布局
     private var hasConfiguredCenterActionLayout = false
+    
+    private weak var homeVC: HomeVC?
+    private weak var printersVC: PrintersVC?
+    private weak var historyVC: HistoryVC?
+    private weak var mineVC: MineVC?
     
     // MARK: - Lifecycle
     
@@ -48,18 +64,25 @@ extension MainTabbarVC {
     
     private func buildChildControllers() {
         let homeVC = HomeVC()
+        
+        homeVC.onBannerTap = { [weak self] in
+            self?.switchToTab(index: 1)
+        }
         homeVC.tabBarItem = UITabBarItem(
             title: "Home",
             image: UIImage(named: "tab1")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab1_select")?.withRenderingMode(.alwaysOriginal)
         )
+        self.homeVC = homeVC
         
         let importVC = PrintersVC()
+        
         importVC.tabBarItem = UITabBarItem(
             title: "Printers",
             image: UIImage(named: "tab2")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab2_select")?.withRenderingMode(.alwaysOriginal)
         )
+        self.printersVC = importVC
         
         /// 中间占位控制器
         let centerPlaceholderVC = UIViewController()
@@ -69,21 +92,23 @@ extension MainTabbarVC {
             tag: 2
         )
         
-        let historyVC = UIViewController()
-        historyVC.view.backgroundColor = .systemBackground
+        let historyVC = HistoryVC()
+        
         historyVC.tabBarItem = UITabBarItem(
             title: "History",
             image: UIImage(named: "tab3")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab3_select")?.withRenderingMode(.alwaysOriginal)
         )
+        self.historyVC = historyVC
         
-        let profileVC = UIViewController()
-        profileVC.view.backgroundColor = .systemBackground
+        let profileVC = MineVC()
+        
         profileVC.tabBarItem = UITabBarItem(
             title: "Me",
             image: UIImage(named: "tab4")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab4_select")?.withRenderingMode(.alwaysOriginal)
         )
+        self.mineVC = profileVC
         
         viewControllers = [
             wrapInNavigation(homeVC),
@@ -98,6 +123,14 @@ extension MainTabbarVC {
         let nav = UINavigationController(rootViewController: rootVC)
         nav.navigationBar.isHidden = true
         return nav
+    }
+    
+   
+    func switchToTab(index: Int) {
+        guard let controllers = viewControllers,
+              controllers.indices.contains(index),
+              index != 2 else { return }
+        selectedIndex = index
     }
 }
 // MARK: - TabBar Style
@@ -270,10 +303,13 @@ extension MainTabbarVC: VNDocumentCameraViewControllerDelegate {
                 pageImages.append(scan.imageOfPage(at: index))
             }
             
-           
+            self.onScannedImages?(pageImages)
             
-//            let editorVC = ImagesEditViewController(images: pageImages)
-//            self.currentTopNavigationController()?.pushViewController(editorVC, animated: true)
+            if let receiver = self.currentTopNavigationController()?.topViewController as? DocumentScanResultReceiving {
+                receiver.didReceiveScannedImages(pageImages)
+            } else if let receiver = self.selectedViewController as? DocumentScanResultReceiving {
+                receiver.didReceiveScannedImages(pageImages)
+            }
         }
     }
     
