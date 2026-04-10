@@ -19,3 +19,7 @@ let kNavHeight = 44 + kStatusBarHeight
 // MARK: - 底部安全区域高度和tabbar的高度
 public var kBottomSafeHeight = jk_kSafeDistanceBottom
 let kTabbarHeight = jk_kTabbarFrameH
+// 判断是否是刘海屏
+var kNotchScreen: Bool {
+    return kStatusBarHeight > 20 && kBottomSafeHeight > 0
+}

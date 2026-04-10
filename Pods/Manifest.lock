@@ -1,22 +1,16 @@
 PODS:
-  - CYLTabBarController (1.29.2):
-    - CYLTabBarController/Core (= 1.29.2)
-  - CYLTabBarController/Core (1.29.2)
   - SnapKit (5.7.1)
 
 DEPENDENCIES:
-  - CYLTabBarController
   - SnapKit (~> 5.7.0)
 
 SPEC REPOS:
   trunk:
-    - CYLTabBarController
     - SnapKit
 
 SPEC CHECKSUMS:
-  CYLTabBarController: db44b5901a28693a8a4279e4721b3aafdd36c178
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
 
-PODFILE CHECKSUM: 8bd29dbbdd11daf2bafbbf5ae2cf39b8874168f5
+PODFILE CHECKSUM: 2ae5068112a6b664b0366e428249be880ed7be3b
 
 COCOAPODS: 1.16.2
