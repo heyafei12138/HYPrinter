@@ -81,7 +81,7 @@ extension LaunchTransitionVC {
         view.addSubview(topLeftMaskView1)
         topLeftMaskView1.snp.makeConstraints { make in
             make.bottom.right.equalToSuperview()
-            make.width.equalTo(118)
+            make.width.equalTo(148)
             make.height.equalTo(96)
         }
     }

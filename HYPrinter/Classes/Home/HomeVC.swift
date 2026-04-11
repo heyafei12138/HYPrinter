@@ -40,6 +40,13 @@ class HomeVC: BaseViewController {
     }()
     
     private let bannerView = HomeBannerView()
+    private let sectionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 16)
+        label.textColor = .black
+        label.text = "👋 立即开始"
+        return label
+    }()
     private let featureGridView = HomeFeatureGridView()
     private let moreModulesView = HomeMoreModulesSectionView()
     
@@ -65,6 +72,7 @@ class HomeVC: BaseViewController {
         contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(bannerView)
+        stackView.addArrangedSubview(sectionLabel)
         stackView.addArrangedSubview(featureGridView)
         stackView.addArrangedSubview(moreModulesView)
         
@@ -91,7 +99,9 @@ class HomeVC: BaseViewController {
         bannerView.snp.makeConstraints { make in
             make.height.equalTo(196)
         }
-        
+        sectionLabel.snp.makeConstraints { make in
+            make.height.equalTo(20)
+        }
         featureGridView.snp.makeConstraints { make in
             make.height.equalTo(176)
         }
@@ -424,8 +434,8 @@ final class BannerGradientView: UIView {
 final class HomeMoreModulesSectionView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "更多模块"
-        label.font = .boldSystemFont(ofSize: 18)
+        label.text = "✨ 更多模块"
+        label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .black
         return label
     }()
@@ -446,12 +456,12 @@ final class HomeMoreModulesSectionView: UIView {
     }()
     
     private let moduleItems: [(String, String)] = [
-        ("envelope.fill", "Email"),
-        ("seal.fill", "贴纸"),
-        ("text.alignleft", "文本"),
-        ("globe", "网页"),
-        ("icloud.fill", "iCloud"),
-        ("person.crop.circle.fill", "联系人")
+        ("email_home_icon", "Email"),
+        ("label_home_icon", "贴纸"),
+        ("text_home_icon", "文本"),
+        ("web_home_icon", "网页"),
+        ("icloud_home_icon", "iCloud"),
+        ("contact_home_icon", "联系人")
     ]
     
     override init(frame: CGRect) {
@@ -513,7 +523,7 @@ final class HomeMoreModulesSectionView: UIView {
 final class HomeModuleEntryView: UIControl {
     private let iconBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = (kSubColor ?? UIColor.systemGray6).withAlphaComponent(0.15)
+        view.backgroundColor = (kSubColor ?? UIColor.systemGray6).withAlphaComponent(0.1)
         view.layer.cornerRadius = 30
         return view
     }()
@@ -537,7 +547,7 @@ final class HomeModuleEntryView: UIControl {
         super.init(frame: .zero)
         backgroundColor = UIColor(hexString: "#F8FAFD") ?? .systemGray6
         layer.cornerRadius = 16
-        iconImageView.image = UIImage(systemName: iconSystemName)
+        iconImageView.image = UIImage(named: iconSystemName)
         titleLabel.text = title
         buildSubviews()
     }
@@ -560,7 +570,7 @@ final class HomeModuleEntryView: UIControl {
         
         iconImageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.width.height.equalTo(35)
+            make.width.height.equalTo(25)
         }
         
         titleLabel.snp.makeConstraints { make in
