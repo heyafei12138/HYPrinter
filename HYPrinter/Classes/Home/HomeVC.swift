@@ -29,7 +29,19 @@ class HomeVC: BaseViewController {
         return label
     }()
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        return stackView
+    }()
+    
     private let bannerView = HomeBannerView()
+    private let featureGridView = HomeFeatureGridView()
+    private let moreModulesView = HomeMoreModulesSectionView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +55,18 @@ class HomeVC: BaseViewController {
         super.buildSubviews()
         
         titleLabel.text = pageHeaderTitle
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        contentView.backgroundColor = .clear
         
         view.addSubview(titleLabel)
-        view.addSubview(bannerView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(stackView)
+        
+        stackView.addArrangedSubview(bannerView)
+        stackView.addArrangedSubview(featureGridView)
+        stackView.addArrangedSubview(moreModulesView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
@@ -53,10 +74,30 @@ class HomeVC: BaseViewController {
             make.right.equalToSuperview().inset(20)
         }
         
-        bannerView.snp.makeConstraints { make in
+        scrollView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
-            make.left.right.equalToSuperview().inset(16)
+            make.left.right.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalTo(scrollView.snp.width)
+        }
+        
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 16, bottom: 24, right: 16))
+        }
+        
+        bannerView.snp.makeConstraints { make in
             make.height.equalTo(196)
+        }
+        
+        featureGridView.snp.makeConstraints { make in
+            make.height.equalTo(176)
+        }
+        
+        moreModulesView.snp.makeConstraints { make in
+            make.height.equalTo(280)
         }
         
         bannerView.onTap = { [weak self] in
@@ -95,7 +136,7 @@ final class HomeBannerView: UIControl {
         return label
     }()
     private let imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "arrow_right"))
+        let imageView = UIImageView(image: UIImage(named: "home_arrow_icon"))
         return imageView
     }()
     
@@ -151,6 +192,210 @@ final class HomeBannerView: UIControl {
     }
 }
 
+final class HomeFeatureGridView: UIView {
+    private let leftCardView = HomeLargeFeatureCardView(
+        imageName: "home_cat_icLeft",
+        title: "图片打印",
+        subtitle: "手机相册蓝牙直连\n一键输出"
+    )
+    
+    private let topRightCardView = HomeCompactFeatureCardView(
+        imageName: "home_cat_ic",
+        iconSystemName: "printer.fill",
+        title: "文档打印"
+    )
+    
+    private let bottomRightCardView = HomeCompactFeatureCardView(
+        imageName: "home_cat_ic2",
+        iconSystemName: "doc.text.viewfinder",
+        title: "素材打印"
+    )
+    
+    private let rightStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        buildSubviews()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func buildSubviews() {
+        addSubview(leftCardView)
+        addSubview(rightStackView)
+        
+        rightStackView.addArrangedSubview(topRightCardView)
+        rightStackView.addArrangedSubview(bottomRightCardView)
+        
+        leftCardView.snp.makeConstraints { make in
+            make.top.left.bottom.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.54)
+        }
+        
+        rightStackView.snp.makeConstraints { make in
+            make.top.right.bottom.equalToSuperview()
+            make.left.equalTo(leftCardView.snp.right).offset(12)
+        }
+    }
+}
+
+final class HomeLargeFeatureCardView: UIView {
+    private let backgroundImageView = UIImageView()
+    private let gradientView = BannerGradientView()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 22)
+        label.textColor = .white
+        return label
+    }()
+    
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.textColor = UIColor.white.withAlphaComponent(0.9)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    init(imageName: String, title: String, subtitle: String) {
+        super.init(frame: .zero)
+        backgroundImageView.image = UIImage(named: imageName)
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+        buildSubviews()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func buildSubviews() {
+        layer.cornerRadius = 16
+        layer.masksToBounds = true
+        
+        backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.clipsToBounds = true
+        
+        addSubview(backgroundImageView)
+        addSubview(gradientView)
+        addSubview(titleLabel)
+        addSubview(subtitleLabel)
+        
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        gradientView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(90)
+        }
+        titleLabel.snp.makeConstraints { make in
+            make.left.right.equalTo(subtitleLabel)
+            make.top.equalToSuperview().inset(16)
+
+        }
+        subtitleLabel.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(16)
+            make.right.equalToSuperview().inset(76)
+            make.top.equalTo(titleLabel.snp.bottom).offset(6)
+        }
+        
+        
+    }
+}
+
+final class HomeCompactFeatureCardView: UIView {
+    private let backgroundImageView = UIImageView()
+    
+    private let dimView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.18)
+        return view
+    }()
+    
+    private let iconBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.22)
+        view.layer.cornerRadius = 16
+        return view
+    }()
+    
+    private let iconImageView = UIImageView()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = .white
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    init(imageName: String, iconSystemName: String, title: String) {
+        super.init(frame: .zero)
+        backgroundImageView.image = UIImage(named: imageName)
+        iconImageView.image = UIImage(systemName: iconSystemName)
+        iconImageView.tintColor = .white
+        iconImageView.contentMode = .scaleAspectFit
+        titleLabel.text = title
+        buildSubviews()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func buildSubviews() {
+        layer.cornerRadius = 16
+        layer.masksToBounds = true
+        
+        backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.clipsToBounds = true
+        
+        addSubview(backgroundImageView)
+        addSubview(dimView)
+        addSubview(iconBackgroundView)
+        iconBackgroundView.addSubview(iconImageView)
+        addSubview(titleLabel)
+        
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        dimView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        iconBackgroundView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(14)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(32)
+        }
+        
+        iconImageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(16)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.left.equalTo(iconBackgroundView.snp.right).offset(10)
+            make.right.equalToSuperview().inset(12)
+            make.centerY.equalToSuperview()
+        }
+    }
+}
+
 final class BannerGradientView: UIView {
     override class var layerClass: AnyClass {
         CAGradientLayer.self
@@ -173,5 +418,154 @@ final class BannerGradientView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+final class HomeMoreModulesSectionView: UIView {
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "更多模块"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .black
+        return label
+    }()
+    
+    private let gridContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 18
+        return view
+    }()
+    
+    private let rowsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 12
+        stackView.distribution = .fillEqually
+        return stackView
+    }()
+    
+    private let moduleItems: [(String, String)] = [
+        ("envelope.fill", "Email"),
+        ("seal.fill", "贴纸"),
+        ("text.alignleft", "文本"),
+        ("globe", "网页"),
+        ("icloud.fill", "iCloud"),
+        ("person.crop.circle.fill", "联系人")
+    ]
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        buildSubviews()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func buildSubviews() {
+        addSubview(titleLabel)
+        addSubview(gridContainerView)
+        gridContainerView.addSubview(rowsStackView)
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+        }
+        
+        gridContainerView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.left.right.bottom.equalToSuperview()
+        }
+        
+        rowsStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 16, left: 14, bottom: 16, right: 14))
+        }
+        
+        let chunks = stride(from: 0, to: moduleItems.count, by: 3).map {
+            Array(moduleItems[$0..<min($0 + 3, moduleItems.count)])
+        }
+        
+        for rowItems in chunks {
+            let rowStackView = UIStackView()
+            rowStackView.axis = .horizontal
+            rowStackView.spacing = 12
+            rowStackView.distribution = .fillEqually
+            
+            for item in rowItems {
+                let cardView = HomeModuleEntryView(iconSystemName: item.0, title: item.1)
+                rowStackView.addArrangedSubview(cardView)
+            }
+            
+            if rowItems.count < 3 {
+                for _ in rowItems.count..<3 {
+                    let placeholderView = UIView()
+                    placeholderView.isHidden = true
+                    rowStackView.addArrangedSubview(placeholderView)
+                }
+            }
+            
+            rowsStackView.addArrangedSubview(rowStackView)
+        }
+    }
+}
+
+final class HomeModuleEntryView: UIControl {
+    private let iconBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = (kSubColor ?? UIColor.systemGray6).withAlphaComponent(0.15)
+        view.layer.cornerRadius = 30
+        return view
+    }()
+    
+    private let iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = kmainColor ?? .systemBlue
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14, weight: .semibold)
+        label.textColor = UIColor(hexString: "#222222") ?? .black
+        label.textAlignment = .center
+        return label
+    }()
+    
+    init(iconSystemName: String, title: String) {
+        super.init(frame: .zero)
+        backgroundColor = UIColor(hexString: "#F8FAFD") ?? .systemGray6
+        layer.cornerRadius = 16
+        iconImageView.image = UIImage(systemName: iconSystemName)
+        titleLabel.text = title
+        buildSubviews()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func buildSubviews() {
+        addSubview(iconBackgroundView)
+        iconBackgroundView.addSubview(iconImageView)
+        addSubview(titleLabel)
+        
+        iconBackgroundView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(60)
+        }
+        
+        iconImageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(35)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(8)
+            make.top.equalTo(iconBackgroundView.snp.bottom).offset(6)
+        }
     }
 }
