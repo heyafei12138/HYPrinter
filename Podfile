@@ -7,5 +7,6 @@ target 'HYPrinter' do
 
   # Pods for HYPrinter
   pod 'SnapKit', '~> 5.7.0'
+  pod 'lottie-ios', '~> 4.6'
   
 end

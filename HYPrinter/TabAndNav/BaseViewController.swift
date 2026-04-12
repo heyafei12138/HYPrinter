@@ -82,7 +82,7 @@ open class BaseViewController: UIViewController {
     }
     
     deinit {
-        debugPrint("controller released >>>", self)
+        
     }
 }
 
