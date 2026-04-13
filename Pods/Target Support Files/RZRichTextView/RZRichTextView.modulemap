@@ -1,0 +1,6 @@
+framework module RZRichTextView {
+  umbrella header "RZRichTextView-umbrella.h"
+
+  export *
+  module * { export * }
+}

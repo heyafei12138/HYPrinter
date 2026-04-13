@@ -329,7 +329,52 @@ final class BannerGradientView: UIView {
     }
 }
 
+enum HomeMoreModule: CaseIterable {
+    case email
+    case label
+    case text
+    case web
+    case iCloud
+    case contact
+    
+    var iconName: String {
+        switch self {
+        case .email:
+            return "email_home_icon"
+        case .label:
+            return "label_home_icon"
+        case .text:
+            return "text_home_icon"
+        case .web:
+            return "web_home_icon"
+        case .iCloud:
+            return "icloud_home_icon"
+        case .contact:
+            return "contact_home_icon"
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .email:
+            return "邮箱"
+        case .label:
+            return "贴纸"
+        case .text:
+            return "文本"
+        case .web:
+            return "网页"
+        case .iCloud:
+            return "iCloud"
+        case .contact:
+            return "联系人"
+        }
+    }
+}
+
 final class HomeMoreModulesSectionView: UIView {
+    var onItemTap: ((HomeMoreModule) -> Void)?
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "✨ 更多模块"
@@ -353,14 +398,7 @@ final class HomeMoreModulesSectionView: UIView {
         return stackView
     }()
     
-    private let moduleItems: [(String, String)] = [
-        ("email_home_icon", "Email"),
-        ("label_home_icon", "贴纸"),
-        ("text_home_icon", "文本"),
-        ("web_home_icon", "网页"),
-        ("icloud_home_icon", "iCloud"),
-        ("contact_home_icon", "联系人")
-    ]
+    private let moduleItems = HomeMoreModule.allCases
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -394,14 +432,16 @@ final class HomeMoreModulesSectionView: UIView {
             Array(moduleItems[$0..<min($0 + 3, moduleItems.count)])
         }
         
-        for rowItems in chunks {
+        for (rowIndex, rowItems) in chunks.enumerated() {
             let rowStackView = UIStackView()
             rowStackView.axis = .horizontal
             rowStackView.spacing = 12
             rowStackView.distribution = .fillEqually
             
-            for item in rowItems {
-                let cardView = HomeModuleEntryView(iconSystemName: item.0, title: item.1)
+            for (columnIndex, item) in rowItems.enumerated() {
+                let cardView = HomeModuleEntryView(iconName: item.iconName, title: item.title)
+                cardView.tag = rowIndex * 3 + columnIndex
+                cardView.addTarget(self, action: #selector(handleModuleTap(_:)), for: .touchUpInside)
                 rowStackView.addArrangedSubview(cardView)
             }
             
@@ -416,19 +456,25 @@ final class HomeMoreModulesSectionView: UIView {
             rowsStackView.addArrangedSubview(rowStackView)
         }
     }
+    
+    @objc private func handleModuleTap(_ sender: HomeModuleEntryView) {
+        guard moduleItems.indices.contains(sender.tag) else { return }
+        onItemTap?(moduleItems[sender.tag])
+    }
 }
 
 final class HomeModuleEntryView: UIControl {
     private let iconBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = (kSubColor ?? UIColor.systemGray6).withAlphaComponent(0.1)
+        view.backgroundColor = kSubColor.withAlphaComponent(0.1)
         view.layer.cornerRadius = 30
+        view.isUserInteractionEnabled = false
         return view
     }()
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = kmainColor ?? .systemBlue
+        imageView.tintColor = kmainColor
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -441,11 +487,11 @@ final class HomeModuleEntryView: UIControl {
         return label
     }()
     
-    init(iconSystemName: String, title: String) {
+    init(iconName: String, title: String) {
         super.init(frame: .zero)
         backgroundColor = UIColor(hexString: "#F8FAFD") ?? .systemGray6
         layer.cornerRadius = 16
-        iconImageView.image = UIImage(named: iconSystemName)
+        iconImageView.image = UIImage(named: iconName)
         titleLabel.text = title
         buildSubviews()
     }

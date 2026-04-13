@@ -1,3 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-HYPrinter/Pods-HYPrinter-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
+${BUILT_PRODUCTS_DIR}/QuicklySwift/QuicklySwift.framework
+${BUILT_PRODUCTS_DIR}/RZColorfulSwift/RZColorfulSwift.framework
+${BUILT_PRODUCTS_DIR}/RZRichTextView/RZRichTextView.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework

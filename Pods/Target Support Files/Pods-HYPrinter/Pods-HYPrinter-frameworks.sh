@@ -176,10 +176,18 @@ code_sign_if_enabled() {
 }
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QuicklySwift/QuicklySwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RZColorfulSwift/RZColorfulSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RZRichTextView/RZRichTextView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/QuicklySwift/QuicklySwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RZColorfulSwift/RZColorfulSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RZRichTextView/RZRichTextView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework"
 fi

@@ -422,7 +422,7 @@ private final class PreviewPhotoCell: UICollectionViewCell {
         
         editEntryButton.setImage(UIImage(named: "ic_photo_edit"), for: .normal)
         editEntryButton.layer.cornerRadius = 4
-        editEntryButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 8, right: 0)
+        editEntryButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 16, right: 0)
         editEntryButton.addTarget(self, action: #selector(handleEditTap), for: .touchUpInside)
         
         contentView.addSubview(cardView)

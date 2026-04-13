@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class HomeVC: BaseViewController {
+class HomeVC: BaseViewController, UIDocumentPickerDelegate {
     
     var pageHeaderTitle: String = "掌上打印" {
         didSet {
@@ -17,6 +17,7 @@ class HomeVC: BaseViewController {
     }
     
     var onBannerTap: (() -> Void)?
+    var onMoreModuleTap: ((HomeMoreModule) -> Void)?
     
     override var shouldHideNavigationBar: Bool {
         get { true }
@@ -122,9 +123,36 @@ class HomeVC: BaseViewController {
             switch index {
             case 0:
                 selectImageAndPrint()
+            case 1:
+                selectFile()
             default:
                 break
             }
+        }
+        
+        moreModulesView.onItemTap = { [weak self] module in
+            self?.handleMoreModuleTap(module)
+        }
+    }
+    
+    func handleMoreModuleTap(_ module: HomeMoreModule) {
+        if let onMoreModuleTap {
+            onMoreModuleTap(module)
+            return
+        }
+        
+        switch module {
+        case .text:
+            let controller = TextsViewController()
+            pushController(controller)
+        case .web:
+            let controller = webDetailViewController()
+            pushController(controller)
+        case .contact:
+            let controller = contactViewController()
+            pushController(controller)
+        default:
+            break
         }
     }
 
@@ -176,16 +204,132 @@ extension HomeVC: PHPickerViewControllerDelegate {
         let vc = PhotoPreviewController(images: images)
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
-        
-//        let printInfo = UIPrintInfo(dictionary: nil)
-//        printInfo.outputType = .photo
-//        printInfo.jobName = "Printer".localized()
-//
-//        let printController = UIPrintInteractionController.shared
-//        printController.printInfo = printInfo
-//        printController.printingItem = image
-//
-//        // 弹出系统打印机界面
-//        printController.present(animated: true, completionHandler: nil)
+
     }
+}
+
+extension HomeVC{
+    @objc private func selectFile() {
+        let supportedTypes: [UTType] = [
+            .pdf,
+            .image, // 包含 jpg、png、heic 等常见图片
+            .jpeg,
+            .png,
+            .spreadsheet, // Excel (.xls, .xlsx)
+            .rtf,
+            .presentation, // PPT
+            .text,
+            
+            UTType("com.microsoft.word.doc")!,     // .doc
+            UTType("org.openxmlformats.wordprocessingml.document")!, // .docx
+            UTType("com.microsoft.excel.xls")!,    // .xls
+            UTType("org.openxmlformats.spreadsheetml.sheet")! // .xlsx
+        ]
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    // MARK: - UIDocumentPicker Delegate
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else { return }
+        //            selectedFileURL = url
+        ensureFileAvailable(at: url) { localURL in
+            guard let localURL = localURL else { return }
+           
+            OfficeFilePrintManager.shared.startPrint(with: localURL, from: self){
+            }
+            /*
+            if #available(iOS 16.0, *) {
+//                let now = String.currentDateTime
+                // 👇 获取 PDF 文件大小
+                let pdfSize = localURL.formattedFileSize
+                print("PDF 文件大小：\(pdfSize)")
+                let rawName = localURL.lastPathComponent
+                let decodedName: String
+                if let data = rawName.data(using: .utf8) {
+                    decodedName = String(data: data, encoding: .utf8) ?? rawName
+                } else {
+                    decodedName = rawName
+                }
+                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let pdfsURL = documentsURL.appendingPathComponent("pdfs")
+                try? FileManager.default.createDirectory(at: pdfsURL, withIntermediateDirectories: true)
+                let destURL = pdfsURL.appendingPathComponent(localURL.lastPathComponent)
+                try? FileManager.default.copyItem(at: localURL, to: destURL)
+                let relativePath = "pdfs/" + localURL.lastPathComponent
+
+//                DBManager.shared.insertFilePaths(name: decodedName, paths: [relativePath],size: pdfSize)
+            } else {
+                // Fallback on earlier versions
+            }*/
+
+           
+        }
+            return
+
+    }
+
+    
+    private func ensureFileAvailable(at url: URL, completion: @escaping (URL?) -> Void) {
+        _ = url.startAccessingSecurityScopedResource()
+        defer { url.stopAccessingSecurityScopedResource() }
+        
+        var isDir: ObjCBool = false
+        let fm = FileManager.default
+        
+        // 如果文件存在，尝试复制到本地可访问位置
+        if fm.fileExists(atPath: url.path, isDirectory: &isDir) {
+            print("文件已在本地: \(url.path)")
+            
+            // 如果路径包含 "File Provider Storage"，说明可能是云端容器（需复制）
+            if url.path.contains("File Provider Storage") {
+                let tempDir = fm.temporaryDirectory.appendingPathComponent("PrintableFiles", isDirectory: true)
+                try? fm.createDirectory(at: tempDir, withIntermediateDirectories: true)
+                
+                let localURL = tempDir.appendingPathComponent(url.lastPathComponent)
+                
+                do {
+                    if fm.fileExists(atPath: localURL.path) {
+                        try fm.removeItem(at: localURL)
+                    }
+                    try fm.copyItem(at: url, to: localURL)
+                    print("✅ 文件已复制到沙盒: \(localURL.path)")
+                    completion(localURL)
+                } catch {
+                    print("❌ 文件复制失败: \(error.localizedDescription)")
+                    completion(nil)
+                }
+            } else {
+                // 普通路径，直接使用
+                completion(url)
+            }
+            return
+        }
+        
+        // iCloud 文件处理
+        let coordinator = NSFileCoordinator()
+        var error: NSError?
+        coordinator.coordinate(readingItemAt: url, options: [], error: &error) { newURL in
+            if fm.fileExists(atPath: newURL.path) {
+                completion(newURL)
+            } else {
+                do {
+                    try fm.startDownloadingUbiquitousItem(at: newURL)
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+                        if fm.fileExists(atPath: newURL.path) {
+                            completion(newURL)
+                        } else {
+                            completion(nil)
+                        }
+                    }
+                } catch {
+                    print("❌ iCloud 下载失败: \(error.localizedDescription)")
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
 }
