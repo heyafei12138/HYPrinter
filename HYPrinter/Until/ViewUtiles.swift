@@ -23,10 +23,12 @@ let kTabbarHeight = jk_kTabbarFrameH
 var kNotchScreen: Bool {
     return kStatusBarHeight > 20 && kBottomSafeHeight > 0
 }
-
-let kmainColor = UIColor(hexString: "#2F80ED")
-let kSubColor = UIColor(hexString: "#5BC0BE")
-let kBgColor = UIColor(hexString: "#F6F8FC")
+let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+    ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
+    ?? ""
+let kmainColor = UIColor(hexString: "#2F80ED")!
+let kSubColor = UIColor(hexString: "#5BC0BE")!
+let kBgColor = UIColor(hexString: "#F6F8FC")!
 
 
 
@@ -34,4 +36,7 @@ let kBgColor = UIColor(hexString: "#F6F8FC")
 @inline(__always)
 func kmiddleFont(fontSize: CGFloat) -> UIFont {
     UIFont.systemFont(ofSize: fontSize, weight: .medium)
+}
+func kboldFont(fontSize: CGFloat) -> UIFont {
+    UIFont.systemFont(ofSize: fontSize, weight: .bold)
 }

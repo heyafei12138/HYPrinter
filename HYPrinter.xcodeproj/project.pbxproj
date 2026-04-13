@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04BC366E2F88AA1500567CA7 /* JKSwiftExtension in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC366D2F88AA1500567CA7 /* JKSwiftExtension */; };
+		04BC3CF32F8C86C500567CA7 /* ZLImageEditor in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC3CF22F8C86C500567CA7 /* ZLImageEditor */; };
 		DBC09E0C99424B1F1DBDB55F /* Pods_HYPrinter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CD8953FA4E2C2FCFB75ED1 /* Pods_HYPrinter.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 			files = (
 				DBC09E0C99424B1F1DBDB55F /* Pods_HYPrinter.framework in Frameworks */,
 				04BC366E2F88AA1500567CA7 /* JKSwiftExtension in Frameworks */,
+				04BC3CF32F8C86C500567CA7 /* ZLImageEditor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +140,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				04BC366C2F88AA1500567CA7 /* XCRemoteSwiftPackageReference "JKSwiftExtension" */,
+				04BC3CF12F8C86C500567CA7 /* XCRemoteSwiftPackageReference "ZLImageEditor" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 04BC34262F88A34700567CA7 /* Products */;
@@ -168,9 +171,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HYPrinter/Pods-HYPrinter-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HYPrinter/Pods-HYPrinter-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -439,6 +446,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		04BC3CF12F8C86C500567CA7 /* XCRemoteSwiftPackageReference "ZLImageEditor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/longitachi/ZLImageEditor.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -446,6 +461,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04BC366C2F88AA1500567CA7 /* XCRemoteSwiftPackageReference "JKSwiftExtension" */;
 			productName = JKSwiftExtension;
+		};
+		04BC3CF22F8C86C500567CA7 /* ZLImageEditor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04BC3CF12F8C86C500567CA7 /* XCRemoteSwiftPackageReference "ZLImageEditor" */;
+			productName = ZLImageEditor;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

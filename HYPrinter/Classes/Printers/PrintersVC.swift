@@ -132,7 +132,7 @@ final class PrintersVC: BaseViewController {
         refreshButton.snp.makeConstraints { make in
             make.centerY.equalTo(titleLabel)
             make.right.equalToSuperview().inset(16)
-            make.width.height.equalTo(30)
+            make.width.height.equalTo(36)
         }
         
         manualAddButton.snp.makeConstraints { make in
@@ -166,6 +166,7 @@ final class PrintersVC: BaseViewController {
         configureTableView()
         bindActions()
         applyState(.searching)
+        refreshButton.contentEdgeInsets = UIEdgeInsets(top: 6, left: 6, bottom: 6, right: 6)
     }
 }
 
@@ -704,8 +705,8 @@ private final class PrinterSearchingStateView: UIView {
         
         loadingView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(72)
-            make.width.height.equalTo(132)
+            make.top.equalToSuperview().offset(54)
+            make.width.height.equalTo(232)
         }
         
         titleLabel.snp.makeConstraints { make in
