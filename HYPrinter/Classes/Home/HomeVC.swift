@@ -151,6 +151,9 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         case .contact:
             let controller = contactViewController()
             pushController(controller)
+        case .label:
+            let controller = StickerViewController()
+            pushController(controller)
         default:
             break
         }
