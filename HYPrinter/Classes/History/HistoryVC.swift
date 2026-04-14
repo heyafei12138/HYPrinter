@@ -366,7 +366,7 @@ private final class PrintHistoryCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .default
+        selectionStyle = .none
         backgroundColor = .clear
         contentView.backgroundColor = .clear
 

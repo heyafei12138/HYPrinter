@@ -29,11 +29,7 @@ final class PrintHistoryDetailViewController: BaseViewController {
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "详情"
-        topBar.barTitle = nil
-        topBar.centerTitleLabel.isHidden = true
-
-       
+        topBar.barTitle = "详情"
         
         topBar.addSubview(printButton)
         
