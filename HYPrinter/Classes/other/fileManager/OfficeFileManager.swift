@@ -16,6 +16,8 @@ final class OfficeFilePrintManager: NSObject {
     private weak var presentingViewController: UIViewController?
     private var hiddenWebView: WKWebView?
     private var completionHandler: (() -> Void)?
+    /// 用户发起打印时的原始文档 URL（用于写入打印历史）
+    private var documentHistorySourceURL: URL?
     
     private override init() {
         super.init()
@@ -28,6 +30,7 @@ final class OfficeFilePrintManager: NSObject {
     ) {
         self.presentingViewController = viewController
         self.completionHandler = completion
+        self.documentHistorySourceURL = fileURL
         
         let fileKind = PrintableFileKind(url: fileURL)
         
@@ -42,6 +45,7 @@ final class OfficeFilePrintManager: NSObject {
             renderGenericFileInWebView(fileURL)
             
         case .unsupported:
+            documentHistorySourceURL = nil
             completion?()
         }
     }
@@ -81,7 +85,9 @@ private extension OfficeFilePrintManager {
     
     func renderGenericFileInWebView(_ fileURL: URL) {
         guard let containerVC = presentingViewController else {
+            documentHistorySourceURL = nil
             completionHandler?()
+            completionHandler = nil
             return
         }
         
@@ -91,7 +97,9 @@ private extension OfficeFilePrintManager {
     
     func renderTextFileInWebView(_ fileURL: URL) {
         guard let containerVC = presentingViewController else {
+            documentHistorySourceURL = nil
             completionHandler?()
+            completionHandler = nil
             return
         }
         
@@ -189,10 +197,20 @@ private extension OfficeFilePrintManager {
         
         printController.printInfo = printInfo
         printController.printingItem = fileURL
+
+        try? PrintHistoryStore.shared.saveFilePrint(
+            category: .document,
+            title: fileURL.lastPathComponent,
+            subtitle: nil,
+            copyingFileAt: fileURL
+        )
         
-        completionHandler?()
-        
-        printController.present(animated: true, completionHandler: nil)
+        printController.present(animated: true) { [weak self] _, _, _ in
+            guard let self else { return }
+            self.documentHistorySourceURL = nil
+            self.completionHandler?()
+            self.completionHandler = nil
+        }
     }
     
     func presentWebViewPrintController(using webView: WKWebView) {
@@ -204,11 +222,22 @@ private extension OfficeFilePrintManager {
         
         printController.printInfo = printInfo
         printController.printFormatter = webView.viewPrintFormatter()
-        
-        completionHandler?()
+
+        if let src = documentHistorySourceURL {
+            try? PrintHistoryStore.shared.saveFilePrint(
+                category: .document,
+                title: src.lastPathComponent,
+                subtitle: nil,
+                copyingFileAt: src
+            )
+        }
+        documentHistorySourceURL = nil
         
         printController.present(animated: true) { [weak self] _, _, _ in
-            self?.clearWebPreviewIfNeeded()
+            guard let self else { return }
+            self.completionHandler?()
+            self.completionHandler = nil
+            self.clearWebPreviewIfNeeded()
         }
     }
 }
@@ -231,11 +260,15 @@ extension OfficeFilePrintManager: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         clearWebPreviewIfNeeded()
+        documentHistorySourceURL = nil
         completionHandler?()
+        completionHandler = nil
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         clearWebPreviewIfNeeded()
+        documentHistorySourceURL = nil
         completionHandler?()
+        completionHandler = nil
     }
 }

@@ -141,6 +141,14 @@ final class StickerGridPreviewViewController: BaseViewController {
         printInfo.outputType = .photo
         printController.printInfo = printInfo
         printController.printingItem = image
+        let rows = pattern.rows
+        let cols = pattern.columns
+        try? PrintHistoryStore.shared.saveImageCategoryPrint(
+            images: [image],
+            category: .sticker,
+            title: "贴纸打印（\(rows)×\(cols)）",
+            subtitle: nil
+        )
         printController.present(animated: true, completionHandler: nil)
     }
 }

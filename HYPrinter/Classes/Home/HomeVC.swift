@@ -240,9 +240,8 @@ extension HomeVC{
         //            selectedFileURL = url
         ensureFileAvailable(at: url) { localURL in
             guard let localURL = localURL else { return }
-           
-            OfficeFilePrintManager.shared.startPrint(with: localURL, from: self){
-            }
+
+            OfficeFilePrintManager.shared.startPrint(with: localURL, from: self, completion: nil)
             /*
             if #available(iOS 16.0, *) {
 //                let now = String.currentDateTime
@@ -268,10 +267,7 @@ extension HomeVC{
                 // Fallback on earlier versions
             }*/
 
-           
         }
-            return
-
     }
 
     

@@ -69,7 +69,7 @@ extension MainTabbarVC {
             self?.switchToTab(index: 1)
         }
         homeVC.tabBarItem = UITabBarItem(
-            title: "Home",
+            title: "首页",
             image: UIImage(named: "tab1")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab1_select")?.withRenderingMode(.alwaysOriginal)
         )
@@ -78,7 +78,7 @@ extension MainTabbarVC {
         let importVC = PrintersVC()
         
         importVC.tabBarItem = UITabBarItem(
-            title: "Printers",
+            title: "打印机",
             image: UIImage(named: "tab2")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab2_select")?.withRenderingMode(.alwaysOriginal)
         )
@@ -95,7 +95,7 @@ extension MainTabbarVC {
         let historyVC = HistoryVC()
         
         historyVC.tabBarItem = UITabBarItem(
-            title: "History",
+            title: "记录",
             image: UIImage(named: "tab3")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab3_select")?.withRenderingMode(.alwaysOriginal)
         )
@@ -104,7 +104,7 @@ extension MainTabbarVC {
         let profileVC = MineVC()
         
         profileVC.tabBarItem = UITabBarItem(
-            title: "Me",
+            title: "我的",
             image: UIImage(named: "tab4")?.withRenderingMode(.alwaysOriginal),
             selectedImage: UIImage(named: "tab4_select")?.withRenderingMode(.alwaysOriginal)
         )

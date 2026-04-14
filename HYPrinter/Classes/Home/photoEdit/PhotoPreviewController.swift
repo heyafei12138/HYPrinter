@@ -226,6 +226,12 @@ private extension PhotoPreviewController {
         info.jobName = "Printer"
         controller.printInfo = info
         controller.printingItems = photoItems
+        let count = photoItems.count
+        try? PrintHistoryStore.shared.saveImagePrint(
+            images: photoItems,
+            title: count > 1 ? "图片打印（\(count) 张）" : "图片打印",
+            subtitle: nil
+        )
         controller.present(animated: true, completionHandler: nil)
         
 //        let timeString = String.currentDateTime

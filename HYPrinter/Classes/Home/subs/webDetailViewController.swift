@@ -233,9 +233,17 @@ private extension webDetailViewController {
         let printController = UIPrintInteractionController.shared
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general
-        printInfo.jobName = webView.title ?? webView.url?.host ?? appName ?? "网页打印"
+        let pageTitle = webView.title ?? webView.url?.absoluteString ?? "网页打印"
+        printInfo.jobName = pageTitle
         printController.printInfo = printInfo
         printController.printingItem = fileURL
+        let sub = webView.url?.host
+        try? PrintHistoryStore.shared.saveFilePrint(
+            category: .web,
+            title: pageTitle,
+            subtitle: sub,
+            copyingFileAt: fileURL
+        )
         printController.present(animated: true, completionHandler: nil)
     }
     

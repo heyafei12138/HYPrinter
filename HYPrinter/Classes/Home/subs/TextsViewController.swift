@@ -291,6 +291,12 @@ private extension TextsViewController {
         printInfo.jobName = "文本打印"
         printController.printInfo = printInfo
         printController.printingItem = fileURL
+        try? PrintHistoryStore.shared.saveFilePrint(
+            category: .text,
+            title: "文本打印",
+            subtitle: nil,
+            copyingFileAt: fileURL
+        )
         printController.present(animated: true, completionHandler: nil)
     }
     

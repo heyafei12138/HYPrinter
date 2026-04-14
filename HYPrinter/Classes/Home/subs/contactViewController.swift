@@ -396,6 +396,12 @@ private extension contactViewController {
         info.jobName = "联系人"
         controller.printInfo = info
         controller.printingItem = pdfURL
+        try? PrintHistoryStore.shared.saveFilePrint(
+            category: .contact,
+            title: "联系人打印",
+            subtitle: nil,
+            copyingFileAt: pdfURL
+        )
         controller.present(animated: true, completionHandler: nil)
     }
     
