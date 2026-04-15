@@ -210,6 +210,8 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
                 selectImageAndPrint()
             case 1:
                 selectFile()
+            case 2:
+                selectMaterial()
             default:
                 break
             }
@@ -239,9 +241,15 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         case .label:
             let controller = StickerViewController()
             pushController(controller)
+        case .iCloud:
+            selectFile()
         default:
             break
         }
+    }
+    func selectMaterial() {
+        let vc = GreetingCardListViewController()
+        pushController(vc)
     }
 
 }

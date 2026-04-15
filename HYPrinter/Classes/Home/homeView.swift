@@ -330,7 +330,7 @@ final class BannerGradientView: UIView {
 }
 
 enum HomeMoreModule: CaseIterable {
-    case email
+//    case email
     case label
     case text
     case web
@@ -339,8 +339,8 @@ enum HomeMoreModule: CaseIterable {
     
     var iconName: String {
         switch self {
-        case .email:
-            return "email_home_icon"
+//        case .email:
+//            return "email_home_icon"
         case .label:
             return "label_home_icon"
         case .text:
@@ -356,8 +356,8 @@ enum HomeMoreModule: CaseIterable {
     
     var title: String {
         switch self {
-        case .email:
-            return "邮箱"
+//        case .email:
+//            return "邮箱"
         case .label:
             return "贴纸"
         case .text:

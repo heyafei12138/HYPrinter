@@ -57,9 +57,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             while let presented = top.presentedViewController {
                 top = presented
             }
-            let alert = UIAlertController(title: "签到成功", message: msg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "好的", style: .default))
-            top.present(alert, animated: true)
+//            let alert = UIAlertController(title: "签到成功", message: msg, preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "好的", style: .default))
+//            top.present(alert, animated: true)
         }
     }
 

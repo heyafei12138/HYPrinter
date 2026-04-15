@@ -202,7 +202,7 @@ final class HomeCheckInFloatingView: UIView {
             centerLabel.textColor = UIColor(hexString: "#1D212C")
         } else {
             centerLabel.text = "\(remainingSeconds)"
-            centerLabel.textColor = UIColor(hexString: "#1D212C").withAlphaComponent(0.8)
+            centerLabel.textColor = UIColor(hexString: "#1D212C")!.withAlphaComponent(0.8)
         }
     }
 

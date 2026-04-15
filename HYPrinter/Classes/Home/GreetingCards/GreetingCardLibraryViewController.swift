@@ -1,0 +1,131 @@
+//
+//  GreetingCardLibraryViewController.swift
+//  HYPrinter
+//
+//  某一分类下全部素材网格（对照 GreetingCardLibraryVC）
+//
+
+import UIKit
+
+final class GreetingCardLibraryViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    var category: CardCategory?
+
+    private var collectionView: UICollectionView!
+
+    private let emptyLabel: UILabel = {
+        let l = UILabel()
+        l.text = "暂无素材"
+        l.textAlignment = .center
+        l.textColor = UIColor(hexString: "#78818D")
+        l.font = kmiddleFont(fontSize: 14)
+        l.isHidden = true
+        return l
+    }()
+
+    override func buildSubviews() {
+        super.buildSubviews()
+        title = category?.title
+        view.backgroundColor = UIColor(hexString: "#EEF1F7")
+
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 12
+        layout.minimumLineSpacing = 12
+
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.alwaysBounceVertical = true
+        collectionView.register(GreetingCardGridCell.self, forCellWithReuseIdentifier: GreetingCardGridCell.identifier)
+
+        view.addSubview(collectionView)
+        view.addSubview(emptyLabel)
+        collectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(topBar.snp.bottom)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        emptyLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+
+        let count = category?.items.count ?? 0
+        emptyLabel.isHidden = count > 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        category?.items.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GreetingCardGridCell.identifier, for: indexPath) as? GreetingCardGridCell,
+              let item = category?.items[indexPath.item] else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: item)
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cat = category else { return }
+        let item = cat.items[indexPath.item]
+        let items = GreetingCardDetailItemsBuilder.detailItems(selected: item, category: cat)
+        let vc = GreetingCardDetailViewController(items: items, categoryTitle: cat.title)
+        pushController(vc)
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let columns: CGFloat = 2
+        let inset = collectionView.contentInset
+        let spacing: CGFloat = 12
+        let totalSpacing = spacing * (columns - 1)
+        let availableWidth = collectionView.bounds.width - inset.left - inset.right - totalSpacing
+        let itemWidth = floor(availableWidth / columns)
+        return CGSize(width: itemWidth, height: itemWidth * 1.4)
+    }
+}
+
+private final class GreetingCardGridCell: UICollectionViewCell {
+    static let identifier = "GreetingCardGridCell"
+
+    private let container = UIView()
+    private let imageView = UIImageView()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.backgroundColor = .clear
+        container.backgroundColor = .white
+        container.layer.cornerRadius = 16
+        container.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        contentView.addSubview(container)
+        container.addSubview(imageView)
+        container.snp.makeConstraints { $0.edges.equalToSuperview() }
+        imageView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func configure(with item: CardItem) {
+        switch item.source {
+        case .named(let name):
+            imageView.image = UIImage(named: name)
+        case .fileURL(let url):
+            imageView.image = UIImage(contentsOfFile: url.path)
+        }
+        if imageView.image == nil {
+            imageView.image = UIImage(named: "empty_pla_image")
+        }
+    }
+}
