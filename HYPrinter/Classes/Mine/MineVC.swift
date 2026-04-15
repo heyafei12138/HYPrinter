@@ -176,24 +176,25 @@ final class MineVC: BaseViewController {
         }
 
         let rewardsCard = MineFeatureCardView(
-            symbolName: "mine_gift",
+            namedImage: "mine_gift",
             title: "我的奖励",
             subtitle: "积分多多"
         )
         let inviteCard = MineFeatureCardView(
-            symbolName: "mine_invite",
-            title: "我的邀请",
-            subtitle: "好友共享"
+            systemImageName: "person.2.fill",
+            tintColor: UIColor(hexString: "#5BC0BE") ?? kSubColor,
+            title: "邀请好友",
+            subtitle: "分享海报邀好友"
         )
         let supportCard = MineFeatureCardView(
-            symbolName: "mine_server",
+            namedImage: "mine_server",
             title: "客服",
             subtitle: "获取帮助"
         )
         cardsStack.addArrangedSubview(rewardsCard)
-        cardsStack.addArrangedSubview(inviteCard)
+//        cardsStack.addArrangedSubview(inviteCard)
         cardsStack.addArrangedSubview(supportCard)
-        [rewardsCard, inviteCard, supportCard].forEach { $0.snp.makeConstraints { $0.height.equalTo(110) } }
+        [rewardsCard, supportCard].forEach { $0.snp.makeConstraints { $0.height.equalTo(110) } }
 
         listCard.backgroundColor = .white
         listCard.layer.cornerRadius = 20
@@ -223,13 +224,16 @@ final class MineVC: BaseViewController {
             make.bottom.equalToSuperview().inset(28 + kTabbarHeight)
         }
 
-        rewardsCard.onTap = { [weak self] in self?.showPlaceholderToast("我的奖励") }
-        inviteCard.onTap = { [weak self] in self?.showPlaceholderToast("我的邀请") }
+        rewardsCard.onTap = { [weak self] in self?.openPointsHistory() }
+        inviteCard.onTap = { [weak self] in self?.openInviteFriends() }
         supportCard.onTap = { [weak self] in self?.openSupport() }
     }
 
     private func buildListRows() {
         let rows: [(icon: String, title: String, showsArrow: Bool, detail: String?, action: () -> Void)] = [
+//            ("list.bullet.rectangle", "积分明细", true, nil, { [weak self] in self?.openPointsHistory() }),
+            ("checkmark.seal.fill", "每日签到", true, nil, { [weak self] in self?.openSignInPage() }),
+            ("person.2.circle.fill", "邀请好友", true, nil, { [weak self] in self?.openInviteFriends() }),
             ("lock.shield.fill", "隐私政策", true, nil, { [weak self] in self?.openPrivacy() }),
             ("info.circle.fill", "关于我们", true, nil, { [weak self] in self?.showAbout() }),
             ("envelope.fill", "邮件反馈", true, nil, { [weak self] in self?.openEmailFeedback() }),
@@ -273,8 +277,22 @@ final class MineVC: BaseViewController {
         return "\(name) \(ver)"
     }
 
-    @objc private func onSettingsTap() {
-        showPlaceholderToast("设置")
+    private func openInviteFriends() {
+        let image = InvitePosterBuilder.makePosterImage()
+        let vc = InviteFriendsPosterViewController(posterImage: image)
+        present(vc, animated: false)
+    }
+
+    private func openPointsHistory() {
+        let vc = PointsHistoryViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func openSignInPage() {
+        let vc = SignInViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showPlaceholderToast(_ name: String) {
@@ -306,9 +324,9 @@ final class MineVC: BaseViewController {
     }
 
     private func openSupport() {
-        let alert = UIAlertController(title: "客服中心", message: "如需帮助，请通过 App 内反馈或邮件联系我们。", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好的", style: .default))
-        present(alert, animated: true)
+        let vc = CustomerServiceChatViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     /// 可在 `Info.plist` 中配置 `FeedbackEmail`（收件人）；未配置时收件人为空，由用户自行填写。
@@ -404,8 +422,27 @@ private final class MineFeatureCardView: UIView {
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
 
-    init(symbolName: String, title: String, subtitle: String) {
+    init(namedImage: String, title: String, subtitle: String) {
         super.init(frame: .zero)
+        applyCardChrome()
+        iconView.image = UIImage(named: namedImage)
+        iconView.contentMode = .scaleAspectFit
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+    }
+
+    init(systemImageName: String, tintColor: UIColor, title: String, subtitle: String) {
+        super.init(frame: .zero)
+        applyCardChrome()
+        let cfg = UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)
+        iconView.image = UIImage(systemName: systemImageName, withConfiguration: cfg)?
+            .withTintColor(tintColor, renderingMode: .alwaysOriginal)
+        iconView.contentMode = .scaleAspectFit
+        titleLabel.text = title
+        subtitleLabel.text = subtitle
+    }
+
+    private func applyCardChrome() {
         backgroundColor = .white
         layer.cornerRadius = 20
         layer.masksToBounds = false
@@ -414,19 +451,14 @@ private final class MineFeatureCardView: UIView {
         layer.shadowOffset = CGSize(width: 0, height: 6)
         layer.shadowRadius = 10
 
-        let config = UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)
-        iconView.image = UIImage(named: symbolName)
-        iconView.contentMode = .scaleAspectFit
-
-        titleLabel.text = title
         titleLabel.font = .systemFont(ofSize: 16, weight: .semibold)
         titleLabel.textAlignment = .center
         titleLabel.textColor = UIColor(hexString: "#1D212C")
 
-        subtitleLabel.text = subtitle
         subtitleLabel.font = .systemFont(ofSize: 10, weight: .regular)
         subtitleLabel.textColor = UIColor(hexString: "#78818D")?.withAlphaComponent(0.7)
         subtitleLabel.numberOfLines = 2
+        subtitleLabel.textAlignment = .center
 
         addSubview(iconView)
         addSubview(titleLabel)
@@ -441,7 +473,6 @@ private final class MineFeatureCardView: UIView {
             make.top.equalTo(iconView.snp.bottom).offset(10)
             make.leading.trailing.equalToSuperview().inset(10)
             make.bottom.lessThanOrEqualToSuperview().inset(12)
-
         }
         subtitleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(4)

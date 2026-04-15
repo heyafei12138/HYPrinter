@@ -49,8 +49,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        DispatchQueue.main.async {
+            guard let msg = PointsManager.shared.processDailyFirstLaunchIfNeeded() else { return }
+            guard let windowScene = scene as? UIWindowScene else { return }
+            guard let root = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else { return }
+            var top = root
+            while let presented = top.presentedViewController {
+                top = presented
+            }
+            let alert = UIAlertController(title: "签到成功", message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "好的", style: .default))
+            top.present(alert, animated: true)
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

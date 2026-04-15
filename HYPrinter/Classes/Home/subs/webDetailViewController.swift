@@ -230,6 +230,7 @@ private extension webDetailViewController {
     }
     
     func presentPrintController(with fileURL: URL) {
+        guard PointsManager.shared.consumePrintPoints(from: self) else { return }
         let printController = UIPrintInteractionController.shared
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general

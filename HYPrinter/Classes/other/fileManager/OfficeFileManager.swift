@@ -189,6 +189,13 @@ private extension OfficeFilePrintManager {
 private extension OfficeFilePrintManager {
     
     func presentNativePrintController(for fileURL: URL) {
+        guard let pvc = presentingViewController,
+              PointsManager.shared.consumePrintPoints(from: pvc) else {
+            documentHistorySourceURL = nil
+            completionHandler?()
+            completionHandler = nil
+            return
+        }
         let printController = UIPrintInteractionController.shared
         
         let printInfo = UIPrintInfo(dictionary: nil)
@@ -214,6 +221,14 @@ private extension OfficeFilePrintManager {
     }
     
     func presentWebViewPrintController(using webView: WKWebView) {
+        guard let pvc = presentingViewController,
+              PointsManager.shared.consumePrintPoints(from: pvc) else {
+            documentHistorySourceURL = nil
+            clearWebPreviewIfNeeded()
+            completionHandler?()
+            completionHandler = nil
+            return
+        }
         let printController = UIPrintInteractionController.shared
         
         let printInfo = UIPrintInfo(dictionary: nil)

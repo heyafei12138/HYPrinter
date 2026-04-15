@@ -109,7 +109,8 @@ private extension FileDetailViewController {
     
     func startPrintFlow() {
         guard let fileURL = pdfURL else { return }
-        
+        guard PointsManager.shared.consumePrintPoints(from: self) else { return }
+
         let printController = UIPrintInteractionController.shared
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general

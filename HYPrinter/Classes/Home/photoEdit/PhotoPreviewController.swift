@@ -214,12 +214,11 @@ private extension PhotoPreviewController {
     }
     
     @objc func handlePrintAction() {
-       
-        
         guard !photoItems.isEmpty else { return }
-        
+        guard PointsManager.shared.consumePrintPoints(from: self) else { return }
+
         didTapPrint?(photoItems)
-        
+
         let controller = UIPrintInteractionController.shared
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .photo

@@ -90,36 +90,49 @@ final class PrintHistoryDetailViewController: BaseViewController {
         }
 
         if ["jpg", "jpeg", "png", "heic", "gif", "webp"].contains(ext) {
-            view.backgroundColor = UIColor(hexString: "#0B0B0C") ?? .black
+            
             let sc = UIScrollView()
             sc.alwaysBounceVertical = true
             sc.showsVerticalScrollIndicator = true
-            sc.backgroundColor = .clear
+            sc.backgroundColor = .white
+            
             let stack = UIStackView()
             stack.axis = .vertical
             stack.spacing = 0
             stack.alignment = .fill
-
+            stack.distribution = .fill
+            
             for url in urls {
                 let e = url.pathExtension.lowercased()
                 guard ["jpg", "jpeg", "png", "heic", "gif", "webp"].contains(e) else { continue }
                 guard let img = UIImage(contentsOfFile: url.path) else { continue }
+                
                 let iv = UIImageView(image: img)
                 iv.contentMode = .scaleAspectFit
-                iv.backgroundColor = .clear
+                iv.clipsToBounds = true
+                iv.backgroundColor = .white
+                
                 stack.addArrangedSubview(iv)
+                
+                let ratio = img.size.height / max(img.size.width, 1)
+                iv.snp.makeConstraints { make in
+                    make.height.equalTo(UIScreen.main.bounds.width * ratio)
+                }
             }
 
             sc.addSubview(stack)
             view.addSubview(sc)
+            
             sc.snp.makeConstraints { make in
                 make.top.equalTo(topBar.snp.bottom)
                 make.leading.trailing.bottom.equalToSuperview()
             }
+            
             stack.snp.makeConstraints { make in
                 make.edges.equalTo(sc.contentLayoutGuide)
                 make.width.equalTo(sc.frameLayoutGuide)
             }
+            
             imageScrollView = sc
             return
         }
@@ -147,6 +160,7 @@ final class PrintHistoryDetailViewController: BaseViewController {
             present(alert, animated: true)
             return
         }
+        guard PointsManager.shared.consumePrintPoints(from: self) else { return }
 
         let printController = UIPrintInteractionController.shared
         let info = UIPrintInfo(dictionary: nil)

@@ -130,6 +130,7 @@ final class StickerGridPreviewViewController: BaseViewController {
     }
 
     @objc private func printCanvasCard() {
+        guard PointsManager.shared.consumePrintPoints(from: self) else { return }
         let renderer = UIGraphicsImageRenderer(bounds: canvasCard.bounds)
         let image = renderer.image { ctx in
             canvasCard.layer.render(in: ctx.cgContext)

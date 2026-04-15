@@ -28,8 +28,20 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = .black
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
+
+    private let pointsButton: UIButton = {
+        let b = UIButton(type: .custom)
+        b.layer.cornerRadius = 16
+        b.layer.masksToBounds = true
+        return b
+    }()
+
+    private var didPlaceFloatDefault = false
+
+    private let floatCheckIn = HomeCheckInFloatingView()
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -55,10 +67,72 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         handleAction()
+        pointsButton.addTarget(self, action: #selector(onPointsButtonTap), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPointsButton), name: .pointsBalanceDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onFloatingCheckInShouldRestart), name: .homeFloatingCheckInShouldRestart, object: nil)
+        floatCheckIn.onTapWhenUnlocked = { [weak self] in
+            self?.openSignInFromHome()
+        }
+        refreshPointsButton()
     }
-    
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func refreshPointsButton() {
+        let v = PointsManager.shared.balance
+        let img = UIImage(named: "get_revord_icon")
+        
+        pointsButton.setImage(img, for: .normal)
+        pointsButton.setTitle(" \(v)", for: .normal)
+        pointsButton.setTitleColor(UIColor.white, for: .normal)
+        pointsButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        pointsButton.backgroundColor = kmainColor
+        
+    }
+
+    @objc private func onPointsButtonTap() {
+        openPointsHistoryFromHome()
+    }
+
+    private func openPointsHistoryFromHome() {
+        let vc = PointsHistoryViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func openSignInFromHome() {
+        let vc = SignInViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func onFloatingCheckInShouldRestart() {
+        floatCheckIn.restartCountdownAfterSignIn()
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        refreshPointsButton()
+        floatCheckIn.resumeOrStartIfNeeded()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        floatCheckIn.pauseTimer()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard !didPlaceFloatDefault, titleLabel.frame.maxY > 0 else { return }
+        didPlaceFloatDefault = true
+        let s = HomeCheckInFloatingView.diameter
+        floatCheckIn.bounds = CGRect(x: 0, y: 0, width: s, height: s)
+        let safe = view.safeAreaInsets
+        let x = view.bounds.width - safe.right - 10 - s / 2
+        let y = titleLabel.frame.maxY + 14 + s / 2
+        floatCheckIn.center = CGPoint(x: x, y: y)
     }
     
     override func buildSubviews() {
@@ -70,8 +144,10 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         contentView.backgroundColor = .clear
         
         view.addSubview(titleLabel)
+        view.addSubview(pointsButton)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        view.addSubview(floatCheckIn)
         contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(bannerView)
@@ -79,10 +155,16 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         stackView.addArrangedSubview(featureGridView)
         stackView.addArrangedSubview(moreModulesView)
         
+        pointsButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
+            make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing).inset(12)
+            make.height.equalTo(36)
+            make.width.greaterThanOrEqualTo(88)
+        }
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             make.left.equalToSuperview().offset(16)
-            make.right.equalToSuperview().inset(20)
+            make.trailing.lessThanOrEqualTo(pointsButton.snp.leading).offset(-8)
         }
         
         scrollView.snp.makeConstraints { make in
@@ -112,7 +194,10 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         moreModulesView.snp.makeConstraints { make in
             make.height.equalTo(280)
         }
-        
+
+        floatCheckIn.translatesAutoresizingMaskIntoConstraints = true
+        view.bringSubviewToFront(floatCheckIn)
+
         bannerView.onTap = { [weak self] in
             self?.onBannerTap?()
         }

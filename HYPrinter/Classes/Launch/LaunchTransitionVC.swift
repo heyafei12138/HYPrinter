@@ -101,7 +101,7 @@ extension LaunchTransitionVC {
         try? AVAudioSession.sharedInstance().setActive(true)
         
         let player = AVPlayer(url: videoURL)
-        player.isMuted = false
+        player.isMuted = true
         player.volume = 1
         self.player = player
         

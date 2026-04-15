@@ -389,7 +389,8 @@ private extension contactViewController {
     
     @objc func handlePrintButtonTap() {
         guard let pdfURL else { return }
-        
+        guard PointsManager.shared.consumePrintPoints(from: self) else { return }
+
         let controller = UIPrintInteractionController.shared
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .general
