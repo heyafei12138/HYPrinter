@@ -15,7 +15,7 @@ final class StickerLibraryDetailViewController: BaseViewController, UICollection
 
     private let emptyLabel: UILabel = {
         let l = UILabel()
-        l.text = "暂无贴纸"
+        l.text = "No stickers yet"
         l.textAlignment = .center
         l.textColor = UIColor(hexString: "#78818D")
         l.font = kmiddleFont(fontSize: 14)

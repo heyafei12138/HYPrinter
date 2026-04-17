@@ -50,7 +50,7 @@ final class CustomerServiceChatViewController: BaseViewController {
         let tf = UITextField()
         tf.font = .systemFont(ofSize: 16, weight: .regular)
         tf.textColor = UIColor(hexString: "#1D212C")
-        tf.placeholder = "请输入您的问题，我们会尽快回复…"
+        tf.placeholder = "Enter your question and we will reply soon..."
         tf.returnKeyType = .send
         tf.backgroundColor = UIColor(hexString: "#EEF1F7") ?? kBgColor
         tf.clearButtonMode = .whileEditing
@@ -66,7 +66,7 @@ final class CustomerServiceChatViewController: BaseViewController {
 
     private let sendButton: UIButton = {
         let b = UIButton(type: .system)
-        b.setTitle("发送", for: .normal)
+        b.setTitle("Send", for: .normal)
         b.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         b.setTitleColor(.white, for: .normal)
         b.setTitleColor(.white, for: .disabled)
@@ -80,16 +80,16 @@ final class CustomerServiceChatViewController: BaseViewController {
     private var inputBottomConstraint: Constraint?
 
     private static let agentScripts: [String] = [
-        "您好，我是掌上打印在线客服小印，很高兴为您服务～",
-        "请问您目前遇到的是连接打印机、文档打印还是其他方面的问题呢？",
-        "您可以简单描述一下现象，例如是否提示离线、是否卡在某个步骤，我会一步步协助您排查。",
-        "若需要补充截图或日志，也可以在下方文字里说明，我们会根据您的情况给出操作建议。",
-        "感谢您的耐心等待，如暂时没有问题，也欢迎随时留言，我们会持续为您服务，祝您使用愉快！"
+        "Hello, this is HYPrinter online support. Glad to help you.",
+        "Are you currently having issues with printer connection, document printing, or something else?",
+        "Please briefly describe what happened, for example whether it shows offline or gets stuck at a step. I will help you troubleshoot step by step.",
+        "If needed, you can also describe screenshots or logs in the input field below, and we will provide suggestions based on your case.",
+        "Thanks for your patience. If you have no further questions for now, feel free to leave a message anytime. We are always here to help."
     ]
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "在线客服"
+        title = "Online Support"
         allowsInteractivePop = true
         view.backgroundColor = UIColor(hexString: "#EEF1F7") ?? kBgColor
 

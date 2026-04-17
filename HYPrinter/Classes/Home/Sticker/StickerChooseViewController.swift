@@ -41,15 +41,15 @@ final class StickerChooseViewController: BaseViewController {
 
     private let titleLabel: UILabel = {
         let l = UILabel()
-        l.text = "选择类型"
+        l.text = "Choose Type"
         l.textAlignment = .center
         l.textColor = UIColor(hexString: "#1A1F27")
         l.font = kboldFont(fontSize: 17)
         return l
     }()
 
-    private let stickerCard = StickerChooseCardView(title: "贴纸库", imageName: "ic_photo_stick")
-    private let photoCard = StickerChooseCardView(title: "相册", imageName: "ic_photo_img")
+    private let stickerCard = StickerChooseCardView(title: "Sticker Library", imageName: "ic_photo_stick")
+    private let photoCard = StickerChooseCardView(title: "Photos", imageName: "ic_photo_img")
 
     private let cardsStack: UIStackView = {
         let s = UIStackView()

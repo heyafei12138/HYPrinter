@@ -27,13 +27,13 @@ final class SignInViewController: BaseViewController {
         l.textColor = UIColor(hexString: "#E53935") ?? .systemRed
         l.textAlignment = .center
         l.numberOfLines = 0
-        l.text = "请先在首页等待右上角悬浮签到的圆环倒计时结束（显示「签到」）后，再返回本页点击签到。"
+        l.text = "Please wait until the floating check-in countdown on Home finishes (shows “Check in”), then return here to check in."
         return l
     }()
 
     private let signButton: UIButton = {
         let b = UIButton(type: .system)
-        b.setTitle("签到领积分", for: .normal)
+        b.setTitle("Check in for points", for: .normal)
         b.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         b.setTitleColor(.white, for: .normal)
         b.backgroundColor = kmainColor
@@ -50,17 +50,17 @@ final class SignInViewController: BaseViewController {
         l.textAlignment = .left
         l.numberOfLines = 0
         l.text = """
-        【当前活动说明】
-        · 每日首次打开 App 将自动获得 \(PointsManager.dailyAutoCheckInPoints) 积分（以弹窗提示为准）。
-        · 完成首页悬浮签到倒计时后，每点击一次「签到领积分」可获得 \(PointsManager.manualCheckInPoints) 积分。
-        · 每次打印将消耗 \(PointsManager.printCost) 积分，请保持积分充足。
+        [Current Activity Rules]
+        · On the first app launch each day, you automatically get \(PointsManager.dailyAutoCheckInPoints) points (subject to popup notice).
+        · After the floating check-in countdown on Home is finished, each tap on “Check in for points” gives \(PointsManager.manualCheckInPoints) points.
+        · Each print consumes \(PointsManager.printCost) points. Please keep enough points available.
         """
         return l
     }()
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "每日签到"
+        title = "Daily Check-in"
         allowsInteractivePop = true
         view.backgroundColor = UIColor(hexString: "#EEF1F7") ?? kBgColor
 
@@ -108,7 +108,7 @@ final class SignInViewController: BaseViewController {
 
     @objc private func refreshUI() {
         let pts = PointsManager.shared.balance
-        balanceLabel.text = "当前积分：\(pts)"
+        balanceLabel.text = "Current points: \(pts)"
         let unlocked = PointsManager.shared.isHomeFloatingCheckInUnlocked
         lockHintLabel.isHidden = unlocked
         signButton.isEnabled = unlocked
@@ -118,8 +118,8 @@ final class SignInViewController: BaseViewController {
     @objc private func onSignTap() {
         guard PointsManager.shared.isHomeFloatingCheckInUnlocked else { return }
         let result = PointsManager.shared.performManualSignIn()
-        let alert = UIAlertController(title: result.ok ? "成功" : "提示", message: result.message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好的", style: .default))
+        let alert = UIAlertController(title: result.ok ? "Success" : "Notice", message: result.message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
         refreshUI()
     }

@@ -29,7 +29,7 @@ final class PrintHistoryDetailViewController: BaseViewController {
 
     override func buildSubviews() {
         super.buildSubviews()
-        topBar.barTitle = "详情"
+        topBar.barTitle = "Details"
         
         topBar.addSubview(printButton)
         
@@ -57,7 +57,7 @@ final class PrintHistoryDetailViewController: BaseViewController {
         guard let first = urls.first else {
             view.backgroundColor = UIColor(hexString: "#0B0B0C") ?? .black
             let empty = UILabel()
-            empty.text = "文件已删除或不可用"
+            empty.text = "File has been deleted or is unavailable."
             empty.textColor = UIColor(hexString: "#9AA4B2")
             empty.font = kmiddleFont(fontSize: 15)
             empty.textAlignment = .center
@@ -139,7 +139,7 @@ final class PrintHistoryDetailViewController: BaseViewController {
 
         view.backgroundColor = UIColor(hexString: "#0B0B0C") ?? .black
         let hint = UILabel()
-        hint.text = "无法预览此格式\n\(first.lastPathComponent)"
+        hint.text = "This format cannot be previewed.\n\(first.lastPathComponent)"
         hint.numberOfLines = 0
         hint.textAlignment = .center
         hint.font = kmiddleFont(fontSize: 14)
@@ -155,8 +155,8 @@ final class PrintHistoryDetailViewController: BaseViewController {
     @objc private func handleReprint() {
         let urls = PrintHistoryStore.shared.fileURLs(for: record).filter { FileManager.default.fileExists(atPath: $0.path) }
         guard !urls.isEmpty else {
-            let alert = UIAlertController(title: "无法打印", message: "找不到已保存的文件。", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "知道了", style: .default))
+            let alert = UIAlertController(title: "Cannot Print", message: "Saved file could not be found.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
             return
         }

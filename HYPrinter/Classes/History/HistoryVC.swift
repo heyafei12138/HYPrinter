@@ -14,9 +14,9 @@ private enum HistorySegmentTab: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .document: return "文档"
-        case .image: return "图片"
-        case .other: return "其他"
+        case .document: return "Documents"
+        case .image: return "Images"
+        case .other: return "Others"
         }
     }
 
@@ -35,7 +35,7 @@ private enum HistorySegmentTab: Int, CaseIterable {
 
 final class HistoryVC: BaseViewController {
 
-    var pageHeaderTitle: String = "打印记录" {
+    var pageHeaderTitle: String = "Print History" {
         didSet { titleLabel.text = pageHeaderTitle }
     }
 
@@ -193,11 +193,11 @@ final class HistoryVC: BaseViewController {
 
         switch selectedSegment {
         case .document:
-            emptyHintLabel.text = "暂无文档类打印记录\n如 PDF、网页、文本、联系人等将显示在这里"
+            emptyHintLabel.text = "No document print history yet.\nPDF, web, text, and contacts will appear here."
         case .image:
-            emptyHintLabel.text = "暂无图片类打印记录\n相册或贴纸打印将显示在这里"
+            emptyHintLabel.text = "No image print history yet.\nAlbum and sticker prints will appear here."
         case .other:
-            emptyHintLabel.text = "暂无其他类型打印记录"
+            emptyHintLabel.text = "No other print history yet."
         }
         segmentCollection.reloadData()
         tableView.reloadData()
@@ -220,11 +220,11 @@ final class HistoryVC: BaseViewController {
 
     private func presentDeleteSheet(for record: PrintHistoryRecord, sourceView: UIView) {
         let alert = UIAlertController(title: nil, message: record.title, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "删除", style: .destructive) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
             try? PrintHistoryStore.shared.deleteRecord(id: record.id)
             self?.reloadData()
         })
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         if let pop = alert.popoverPresentationController {
             pop.sourceView = sourceView
             pop.sourceRect = sourceView.bounds

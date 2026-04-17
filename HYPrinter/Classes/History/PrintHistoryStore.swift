@@ -20,12 +20,12 @@ enum PrintHistoryCategory: String, Codable, CaseIterable, Comparable {
 
     var displayTitle: String {
         switch self {
-        case .image: return "图片"
-        case .document: return "文档"
-        case .sticker: return "贴纸"
-        case .text: return "文本"
-        case .web: return "网页"
-        case .contact: return "联系人"
+        case .image: return "Images"
+        case .document: return "Documents"
+        case .sticker: return "Stickers"
+        case .text: return "Text"
+        case .web: return "Web"
+        case .contact: return "Contacts"
         }
     }
 
@@ -121,7 +121,7 @@ final class PrintHistoryStore {
         subtitle: String?
     ) throws -> PrintHistoryRecord {
         guard !images.isEmpty else {
-            throw NSError(domain: "PrintHistory", code: 1, userInfo: [NSLocalizedDescriptionKey: "无图片"])
+            throw NSError(domain: "PrintHistory", code: 1, userInfo: [NSLocalizedDescriptionKey: "No images"])
         }
         let id = UUID().uuidString
         let dir = recordDirectoryURL(for: id)
@@ -135,7 +135,7 @@ final class PrintHistoryStore {
             names.append(name)
         }
         guard !names.isEmpty else {
-            throw NSError(domain: "PrintHistory", code: 2, userInfo: [NSLocalizedDescriptionKey: "写入失败"])
+            throw NSError(domain: "PrintHistory", code: 2, userInfo: [NSLocalizedDescriptionKey: "Write failed"])
         }
         let record = PrintHistoryRecord(
             id: id,

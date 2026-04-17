@@ -56,7 +56,7 @@ final class FileDetailViewController: BaseViewController {
 private extension FileDetailViewController {
     
     func setupAppearance() {
-        title = "详情"
+        title = "Details"
         view.backgroundColor = UIColor(hexString:"#ECEFF7")
         topBar.backgroundColor = kmainColor
     }
@@ -100,7 +100,7 @@ private extension FileDetailViewController {
         guard let fileURL = pdfURL else { return }
         
         guard let pdfDocument = PDFDocument(url: fileURL) else {
-            print("❗️PDF 加载失败: \(fileURL)")
+            print("❗️PDF failed to load: \(fileURL)")
             return
         }
         

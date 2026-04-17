@@ -40,7 +40,7 @@ final class GreetingCardDetailViewController: BaseViewController, UICollectionVi
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "素材预览"
+        title = "Template Preview"
         view.backgroundColor = UIColor(hexString: "#EEF2F7")
 
         countLabel.textColor = UIColor(hexString: "#78818D")
@@ -111,9 +111,9 @@ final class GreetingCardDetailViewController: BaseViewController, UICollectionVi
 
         let title: String
         if images.count > 1 {
-            title = "素材打印（\(images.count) 张）"
+            title = "Template Print (\(images.count) pages)"
         } else {
-            title = "素材打印"
+            title = "Template Print"
         }
         try? PrintHistoryStore.shared.saveImagePrint(images: images, title: title, subtitle: categoryTitle)
 

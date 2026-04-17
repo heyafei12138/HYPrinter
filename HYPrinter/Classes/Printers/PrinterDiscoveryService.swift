@@ -234,9 +234,9 @@ private extension PrinterDiscoveryService {
     func discoveryFailureMessage(from errorDict: [String: NSNumber]) -> String {
         if let code = errorDict[NetService.errorCode]?.intValue,
            code == -72008 {
-            return "请开启本地网络权限后再继续搜索。"
+            return "Please enable Local Network permission before searching again."
         }
-        return "当前网络环境下无法完成打印机搜索，请稍后重试。"
+        return "Unable to complete printer search on the current network. Please try again later."
     }
 }
 

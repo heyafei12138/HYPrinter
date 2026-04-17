@@ -21,7 +21,7 @@ final class HomeBannerView: UIControl {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "设备快连"
+        label.text = "Quick Device Connect"
         label.font = .boldSystemFont(ofSize: 22)
         label.textColor = .white
         return label
@@ -29,7 +29,7 @@ final class HomeBannerView: UIControl {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "点击查看更多"
+        label.text = "Tap to see more"
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = UIColor.white.withAlphaComponent(0.88)
         return label
@@ -94,20 +94,20 @@ final class HomeBannerView: UIControl {
 final class HomeFeatureGridView: UIView {
     private let leftCardView = HomeLargeFeatureCardView(
         imageName: "home_cat_icLeft",
-        title: "图片打印",
-        subtitle: "手机相册蓝牙直连\n一键输出"
+        title: "Photo Print",
+        subtitle: "Print from your photo album\nin one tap"
     )
     
     private let topRightCardView = HomeCompactFeatureCardView(
         imageName: "home_cat_ic",
         iconSystemName: "printer.fill",
-        title: "文档打印"
+        title: "Document Print"
     )
     
     private let bottomRightCardView = HomeCompactFeatureCardView(
         imageName: "home_cat_ic2",
         iconSystemName: "doc.text.viewfinder",
-        title: "素材打印"
+        title: "Template Print"
     )
     
     private let rightStackView: UIStackView = {
@@ -357,17 +357,17 @@ enum HomeMoreModule: CaseIterable {
     var title: String {
         switch self {
 //        case .email:
-//            return "邮箱"
+//            return "Email"
         case .label:
-            return "贴纸"
+            return "Stickers"
         case .text:
-            return "文本"
+            return "Text"
         case .web:
-            return "网页"
+            return "Web"
         case .iCloud:
             return "iCloud"
         case .contact:
-            return "联系人"
+            return "Contacts"
         }
     }
 }
@@ -377,7 +377,7 @@ final class HomeMoreModulesSectionView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "✨ 更多模块"
+        label.text = "✨ More Modules"
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .black
         return label

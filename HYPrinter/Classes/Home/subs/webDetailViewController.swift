@@ -33,7 +33,7 @@ final class webDetailViewController: BaseViewController, UITextFieldDelegate {
     override func buildSubviews() {
         super.buildSubviews()
         
-        title = "网页"
+        title = "Web"
         view.backgroundColor = .white
         topBar.barBackgroundColor = .white
         
@@ -57,7 +57,7 @@ private extension webDetailViewController {
         addressIconView.contentMode = .scaleAspectFit
         
         urlTextField.delegate = self
-        urlTextField.placeholder = "输入网址或关键词"
+        urlTextField.placeholder = "Enter URL or keywords"
         urlTextField.autocapitalizationType = .none
         urlTextField.autocorrectionType = .no
         urlTextField.clearButtonMode = .never
@@ -234,7 +234,7 @@ private extension webDetailViewController {
         let printController = UIPrintInteractionController.shared
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general
-        let pageTitle = webView.title ?? webView.url?.absoluteString ?? "网页打印"
+        let pageTitle = webView.title ?? webView.url?.absoluteString ?? "Web Print"
         printInfo.jobName = pageTitle
         printController.printInfo = printInfo
         printController.printingItem = fileURL
@@ -250,11 +250,11 @@ private extension webDetailViewController {
     
     func presentPrintErrorAlert() {
         let alert = UIAlertController(
-            title: "打印失败",
-            message: "当前网页暂时无法生成可打印内容，请稍后重试。",
+            title: "Print Failed",
+            message: "The current webpage cannot be generated for printing right now. Please try again later.",
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "知道了", style: .cancel))
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alert, animated: true)
     }
 }

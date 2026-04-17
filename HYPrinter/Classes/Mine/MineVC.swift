@@ -61,7 +61,7 @@ final class MineVC: BaseViewController {
 
     private let nicknameLabel: UILabel = {
         let l = UILabel()
-        l.text = "掌上打印用户9834"
+        l.text = "HYPrinter User 9834"
         l.font = .systemFont(ofSize: 23, weight: .semibold)
         l.textColor = .white
         l.textAlignment = .center
@@ -70,7 +70,7 @@ final class MineVC: BaseViewController {
 
     private let signatureLabel: UILabel = {
         let l = UILabel()
-        l.text = "普通会员 · 点击完善资料"
+        l.text = "Standard Member · Tap to complete profile"
         l.font = .systemFont(ofSize: 13, weight: .regular)
         l.textColor = UIColor.white.withAlphaComponent(0.88)
         l.textAlignment = .center
@@ -177,19 +177,19 @@ final class MineVC: BaseViewController {
 
         let rewardsCard = MineFeatureCardView(
             namedImage: "mine_gift",
-            title: "我的奖励",
-            subtitle: "积分多多"
+            title: "My Rewards",
+            subtitle: "Earn more points"
         )
         let inviteCard = MineFeatureCardView(
             systemImageName: "person.2.fill",
             tintColor: UIColor(hexString: "#5BC0BE") ?? kSubColor,
-            title: "邀请好友",
-            subtitle: "分享海报邀好友"
+            title: "Invite Friends",
+            subtitle: "Share poster with friends"
         )
         let supportCard = MineFeatureCardView(
             namedImage: "mine_server",
-            title: "客服",
-            subtitle: "获取帮助"
+            title: "Support",
+            subtitle: "Get help"
         )
         cardsStack.addArrangedSubview(rewardsCard)
 //        cardsStack.addArrangedSubview(inviteCard)
@@ -231,13 +231,13 @@ final class MineVC: BaseViewController {
 
     private func buildListRows() {
         let rows: [(icon: String, title: String, showsArrow: Bool, detail: String?, action: () -> Void)] = [
-//            ("list.bullet.rectangle", "积分明细", true, nil, { [weak self] in self?.openPointsHistory() }),
-            ("checkmark.seal.fill", "每日签到", true, nil, { [weak self] in self?.openSignInPage() }),
-            ("person.2.circle.fill", "邀请好友", true, nil, { [weak self] in self?.openInviteFriends() }),
-            ("lock.shield.fill", "隐私政策", true, nil, { [weak self] in self?.openPrivacy() }),
-            ("info.circle.fill", "关于我们", true, nil, { [weak self] in self?.showAbout() }),
-            ("envelope.fill", "邮件反馈", true, nil, { [weak self] in self?.openEmailFeedback() }),
-            ("star.fill", "给个好评", true, nil, { [weak self] in self?.requestReview() })
+//            ("list.bullet.rectangle", "Points History", true, nil, { [weak self] in self?.openPointsHistory() }),
+            ("checkmark.seal.fill", "Daily Check-in", true, nil, { [weak self] in self?.openSignInPage() }),
+            ("person.2.circle.fill", "Invite Friends", true, nil, { [weak self] in self?.openInviteFriends() }),
+            ("lock.shield.fill", "Privacy Policy", true, nil, { [weak self] in self?.openPrivacy() }),
+            ("info.circle.fill", "About", true, nil, { [weak self] in self?.showAbout() }),
+            ("envelope.fill", "Email Feedback", true, nil, { [weak self] in self?.openEmailFeedback() }),
+            ("star.fill", "Rate Us", true, nil, { [weak self] in self?.requestReview() })
         ]
 
         for (index, row) in rows.enumerated() {
@@ -296,8 +296,8 @@ final class MineVC: BaseViewController {
     }
 
     private func showPlaceholderToast(_ name: String) {
-        let alert = UIAlertController(title: nil, message: "\(name) 功能即将上线", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好的", style: .default))
+        let alert = UIAlertController(title: nil, message: "\(name) is coming soon.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
 
@@ -309,9 +309,9 @@ final class MineVC: BaseViewController {
     }
 
     private func showAbout() {
-        let msg = "\(MineVC.appVersionFootnoteString())\n\n一款便捷的移动打印应用。"
-        let alert = UIAlertController(title: "关于我们", message: msg, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好的", style: .default))
+        let msg = "\(MineVC.appVersionFootnoteString())\n\nA convenient mobile printing app."
+        let alert = UIAlertController(title: "About", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
 
@@ -337,8 +337,8 @@ final class MineVC: BaseViewController {
     }
 
     private func openEmailFeedback() {
-        let subject = "HYPrinter 意见反馈"
-        let body = "请描述您遇到的问题或建议：\n\n\n——\n\(MineVC.appVersionFootnoteString())"
+        let subject = "HYPrinter Feedback"
+        let body = "Please describe your issue or suggestion:\n\n\n——\n\(MineVC.appVersionFootnoteString())"
 
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
@@ -362,16 +362,16 @@ final class MineVC: BaseViewController {
             URLQueryItem(name: "body", value: body)
         ]
         guard let url = components.url else {
-            let alert = UIAlertController(title: nil, message: "无法打开邮件，请检查是否已配置系统邮箱。", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "好的", style: .default))
+            let alert = UIAlertController(title: nil, message: "Cannot open Mail. Please check whether a system mail account is configured.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
             return
         }
         UIApplication.shared.open(url, options: [:]) { [weak self] ok in
             guard let self else { return }
             if !ok {
-                let alert = UIAlertController(title: nil, message: "无法打开邮件应用。", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "好的", style: .default))
+                let alert = UIAlertController(title: nil, message: "Cannot open the Mail app.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alert, animated: true)
             }
         }

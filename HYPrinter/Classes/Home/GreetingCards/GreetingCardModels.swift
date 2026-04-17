@@ -81,9 +81,9 @@ enum GreetingCardDataLoader {
             
         ]
         return [
-            CardCategory(id: "christmas_cards", title: "节日精选", items: holiday),
-            CardCategory(id: "calendars", title: "日历素材", items: calendars),
-            CardCategory(id: "Planners", title: "手帐与计划", items: planners)
+            CardCategory(id: "christmas_cards", title: "Holiday Picks", items: holiday),
+            CardCategory(id: "calendars", title: "Calendar Templates", items: calendars),
+            CardCategory(id: "Planners", title: "Planners", items: planners)
         ]
     }
 }

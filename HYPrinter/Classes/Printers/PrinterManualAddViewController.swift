@@ -36,7 +36,7 @@ final class PrinterManualAddViewController: BaseViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "选择打印机品牌"
+        label.text = "Select Printer Brand"
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = .black
         return label
@@ -44,7 +44,7 @@ final class PrinterManualAddViewController: BaseViewController {
     
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "手动添加后，设备会先以离线状态展示在列表中。"
+        label.text = "After manual add, the device will appear in the list as offline first."
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(hexString: "#707A89") ?? .gray
         label.numberOfLines = 0
@@ -58,7 +58,7 @@ final class PrinterManualAddViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "手动添加"
+        title = "Manual Add"
     }
     
     override func buildSubviews() {
@@ -139,7 +139,7 @@ private final class PrinterModelSelectionViewController: BaseViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "选择打印机型号"
+        label.text = "Select Printer Model"
         label.font = .boldSystemFont(ofSize: 24)
         label.textColor = .black
         return label
@@ -147,7 +147,7 @@ private final class PrinterModelSelectionViewController: BaseViewController {
     
     private lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "\(brand.name) 常用机型"
+        label.text = "\(brand.name) Popular Models"
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(hexString: "#707A89") ?? .gray
         return label
@@ -167,7 +167,7 @@ private final class PrinterModelSelectionViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "选择型号"
+        title = "Select Model"
     }
     
     override func buildSubviews() {

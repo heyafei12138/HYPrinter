@@ -83,7 +83,7 @@ private extension PhotoPreviewController {
             make.height.equalTo(56)
         }
         
-        headlineLabel.text = "图像预览"
+        headlineLabel.text = "Image Preview"
         headlineLabel.font = kboldFont(fontSize: 17)
         headlineLabel.textColor = UIColor(hexString:"#1D212C")
         
@@ -137,7 +137,7 @@ private extension PhotoPreviewController {
     }
     
     func setupActionButton() {
-        actionButton.setTitle("打印", for: .normal)
+        actionButton.setTitle("Print", for: .normal)
         actionButton.setTitleColor(.white, for: .normal)
         actionButton.titleLabel?.font = kboldFont(fontSize: 17)
         actionButton.backgroundColor = kmainColor
@@ -228,7 +228,7 @@ private extension PhotoPreviewController {
         let count = photoItems.count
         try? PrintHistoryStore.shared.saveImagePrint(
             images: photoItems,
-            title: count > 1 ? "图片打印（\(count) 张）" : "图片打印",
+            title: count > 1 ? "Photo Print (\(count) photos)" : "Photo Print",
             subtitle: nil
         )
         controller.present(animated: true, completionHandler: nil)

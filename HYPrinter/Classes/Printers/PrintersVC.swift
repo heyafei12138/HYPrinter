@@ -17,7 +17,7 @@ final class PrintersVC: BaseViewController {
         case failed(String)
     }
     
-    var pageHeaderTitle: String = "掌上打印" {
+    var pageHeaderTitle: String = "HYPrinter" {
         didSet {
             titleLabel.text = pageHeaderTitle
         }
@@ -63,7 +63,7 @@ final class PrintersVC: BaseViewController {
     
     private let manualAddButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("手动添加设备", for: .normal)
+        button.setTitle("Add Device Manually", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 17)
         button.setBackgroundImage(UIImage(named: "continue_btn_bg_new"), for: .normal)
@@ -179,9 +179,9 @@ private extension PrintersVC {
         var title: String {
             switch self {
             case .online:
-                return "可用设备"
+                return "Available Devices"
             case .offline:
-                return "其他设备"
+                return "Other Devices"
             }
         }
     }
@@ -241,7 +241,7 @@ private extension PrintersVC {
                         self.discoveryService.stopDiscovery(notify: false)
                         self.reloadPrinterGroups(with: self.discoveryService.currentPrinters())
                         if shouldKeepListVisible == false {
-                            self.applyState(.failed("请在系统设置中开启“本地网络”权限后再搜索打印机。"))
+                            self.applyState(.failed("Please enable Local Network permission in Settings before searching for printers."))
                         }
                     }
                 }
@@ -351,13 +351,13 @@ private extension PrintersVC {
     
     func presentPossibleCauses() {
         let message = [
-            "1. 请确认打印机和手机处于同一局域网。",
-            "2. 请确认打印机已开机且支持局域网发现。",
-            "3. 如局域网权限被关闭，请前往系统设置开启。"
+            "1. Make sure your printer and phone are on the same local network.",
+            "2. Make sure the printer is powered on and supports network discovery.",
+            "3. If Local Network permission is disabled, enable it in Settings."
         ].joined(separator: "\n")
         
-        let alert = UIAlertController(title: "可能原因", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "知道了", style: .cancel))
+        let alert = UIAlertController(title: "Possible Causes", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alert, animated: true)
     }
     
@@ -368,7 +368,7 @@ private extension PrintersVC {
     
     func handleFailedPrimaryAction() {
         if case .failed(let message) = state,
-           message.contains("本地网络") {
+           message.contains("Local Network") {
             openAppSettings()
         } else {
             startSearchingPrinters()
@@ -514,11 +514,11 @@ extension PrintersVC: UITableViewDelegate {
         let containerView = UIView()
         containerView.backgroundColor = .clear
         let tipsView = PrinterTipsCardView(
-            title: "查找不到设备？",
+            title: "Can't find your device?",
             items: [
-                "确认打印机已经连接到 Wi-Fi 或局域网。",
-                "确认手机和打印机处于同一个网络环境。",
-                "如仍未搜到，可手动添加常用机型。"
+                "Make sure the printer is connected to Wi-Fi or your local network.",
+                "Make sure your phone and printer are on the same network.",
+                "If still not found, try manually adding a common model."
             ]
         )
         containerView.addSubview(tipsView)
@@ -592,14 +592,14 @@ private final class PrinterDeviceCell: UITableViewCell {
     
     func configure(with printer: PrinterDevice) {
         nameLabel.text = printer.name
-        detailLabel.text = printer.isManual ? "已手动添加" : (printer.url.host ?? printer.url.absoluteString)
+        detailLabel.text = printer.isManual ? "Added manually" : (printer.url.host ?? printer.url.absoluteString)
         
         if printer.isConnected {
-            statusLabel.text = "可用"
+            statusLabel.text = "Available"
             statusLabel.textColor = UIColor(hexString: "#1E9B70") ?? .systemGreen
             statusLabel.backgroundColor = UIColor(hexString: "#E6F7F1") ?? UIColor.systemGreen.withAlphaComponent(0.12)
         } else {
-            statusLabel.text = "未连接"
+            statusLabel.text = "Offline"
             statusLabel.textColor = UIColor(hexString: "#8A94A6") ?? .gray
             statusLabel.backgroundColor = UIColor(hexString: "#EEF1F6") ?? UIColor.systemGray5
         }
@@ -658,7 +658,7 @@ private final class PrinterSearchingStateView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "正在查找打印机"
+        label.text = "Searching for printers"
         label.font = .boldSystemFont(ofSize: 22)
         label.textColor = .black
         label.textAlignment = .center
@@ -667,7 +667,7 @@ private final class PrinterSearchingStateView: UIView {
     
     private let detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "请保持手机和打印机在同一网络环境中。"
+        label.text = "Keep your phone and printer on the same network."
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(hexString: "#707A89") ?? .gray
         label.numberOfLines = 0
@@ -676,11 +676,11 @@ private final class PrinterSearchingStateView: UIView {
     }()
     
     private let tipsView = PrinterTipsCardView(
-        title: "搜索前请确认",
+        title: "Before you search",
         items: [
-            "打印机已开机并连接网络。",
-            "手机已允许本地网络权限。",
-            "如设备未显示，可尝试手动添加。"
+            "The printer is powered on and connected to the network.",
+            "Local Network permission is enabled on your phone.",
+            "If the device does not appear, try manual add."
         ]
     )
     
@@ -740,7 +740,7 @@ private final class PrinterEmptyStateView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "未找到打印机"
+        label.text = "No printer found"
         label.font = .boldSystemFont(ofSize: 22)
         label.textColor = .black
         label.textAlignment = .center
@@ -749,7 +749,7 @@ private final class PrinterEmptyStateView: UIView {
     
     private let detailLabel: UILabel = {
         let label = UILabel()
-        label.text = "搜索完成后仍未发现可用设备，你可以重试或查看排查建议。"
+        label.text = "No available devices were found after searching. You can retry or view troubleshooting tips."
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(hexString: "#707A89") ?? .gray
         label.textAlignment = .center
@@ -759,7 +759,7 @@ private final class PrinterEmptyStateView: UIView {
     
     private let refreshButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("重新搜索", for: .normal)
+        button.setTitle("Search Again", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         button.backgroundColor = kmainColor ?? .systemBlue
@@ -769,7 +769,7 @@ private final class PrinterEmptyStateView: UIView {
     
     private let helpButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("查看排查建议", for: .normal)
+        button.setTitle("View Troubleshooting", for: .normal)
         button.setTitleColor(kmainColor ?? .systemBlue, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         return button
@@ -846,7 +846,7 @@ private final class PrinterFailedStateView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "查找失败"
+        label.text = "Search Failed"
         label.font = .boldSystemFont(ofSize: 22)
         label.textColor = .black
         label.textAlignment = .center
@@ -883,7 +883,7 @@ private final class PrinterFailedStateView: UIView {
     
     func configure(message: String) {
         detailLabel.text = message
-        let title = message.contains("本地网络") ? "打开设置" : "重新搜索"
+        let title = message.contains("Local Network") ? "Open Settings" : "Search Again"
         primaryButton.setTitle(title, for: .normal)
     }
     

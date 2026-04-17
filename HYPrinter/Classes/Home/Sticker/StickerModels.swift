@@ -56,10 +56,10 @@ enum StickerSheetShape: CaseIterable {
 
     var title: String {
         switch self {
-        case .rectangle: return "矩形"
-        case .round: return "圆形"
-        case .oval: return "椭圆"
-        case .square: return "方形"
+        case .rectangle: return "Rectangle"
+        case .round: return "Round"
+        case .oval: return "Oval"
+        case .square: return "Square"
         }
     }
 
@@ -225,7 +225,7 @@ enum StickerLocalDataSource {
         
     ]
     static func loadCategories() -> [StickerCategory] {
-        let titles = ["节日", "心情", "生日", "可爱", "动物", "办公"]
+        let titles = ["Holiday", "Mood", "Birthday", "Cute", "Animals", "Office"]
         return titles.enumerated().map { index, title in
             let items: [StickerItem] = (0..<AllImageNames[index].count).map { i in
                 let name = AllImageNames[index][i]

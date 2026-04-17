@@ -10,7 +10,7 @@ import PhotosUI
 
 class HomeVC: BaseViewController, UIDocumentPickerDelegate {
     
-    var pageHeaderTitle: String = "掌上打印" {
+    var pageHeaderTitle: String = "HYPrinter" {
         didSet {
             titleLabel.text = pageHeaderTitle
         }
@@ -58,7 +58,7 @@ class HomeVC: BaseViewController, UIDocumentPickerDelegate {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = .black
-        label.text = "👋 立即开始"
+        label.text = "👋 Get Started"
         return label
     }()
     private let featureGridView = HomeFeatureGridView()
@@ -340,7 +340,7 @@ extension HomeVC{
 //                let now = String.currentDateTime
                 // 👇 获取 PDF 文件大小
                 let pdfSize = localURL.formattedFileSize
-                print("PDF 文件大小：\(pdfSize)")
+                print("PDF size: \(pdfSize)")
                 let rawName = localURL.lastPathComponent
                 let decodedName: String
                 if let data = rawName.data(using: .utf8) {
@@ -373,7 +373,7 @@ extension HomeVC{
         
         // 如果文件存在，尝试复制到本地可访问位置
         if fm.fileExists(atPath: url.path, isDirectory: &isDir) {
-            print("文件已在本地: \(url.path)")
+            print("File already available locally: \(url.path)")
             
             // 如果路径包含 "File Provider Storage"，说明可能是云端容器（需复制）
             if url.path.contains("File Provider Storage") {
@@ -387,10 +387,10 @@ extension HomeVC{
                         try fm.removeItem(at: localURL)
                     }
                     try fm.copyItem(at: url, to: localURL)
-                    print("✅ 文件已复制到沙盒: \(localURL.path)")
+                    print("✅ File copied into sandbox: \(localURL.path)")
                     completion(localURL)
                 } catch {
-                    print("❌ 文件复制失败: \(error.localizedDescription)")
+                    print("❌ File copy failed: \(error.localizedDescription)")
                     completion(nil)
                 }
             } else {
@@ -417,7 +417,7 @@ extension HomeVC{
                         }
                     }
                 } catch {
-                    print("❌ iCloud 下载失败: \(error.localizedDescription)")
+                    print("❌ iCloud download failed: \(error.localizedDescription)")
                     completion(nil)
                 }
             }

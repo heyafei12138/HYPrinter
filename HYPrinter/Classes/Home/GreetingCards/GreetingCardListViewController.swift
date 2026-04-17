@@ -14,7 +14,7 @@ final class GreetingCardListViewController: BaseViewController, UITableViewDataS
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "选择素材"
+        title = "Choose Templates"
         view.backgroundColor = UIColor(hexString: "#EEF2F7")
 
         tableView.backgroundColor = .clear

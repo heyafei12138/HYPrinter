@@ -36,7 +36,7 @@ final class InviteFriendsPosterViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let l = UILabel()
-        l.text = "邀请好友"
+        l.text = "Invite Friends"
         l.font = .systemFont(ofSize: 17, weight: .semibold)
         l.textColor = UIColor(hexString: "#1D212C")
         l.textAlignment = .center
@@ -48,7 +48,7 @@ final class InviteFriendsPosterViewController: UIViewController {
         let img = UIImage(systemName: "xmark.circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .medium))?
             .withTintColor(UIColor(hexString: "#9AA4B2") ?? .gray, renderingMode: .alwaysOriginal)
         b.setImage(img, for: .normal)
-        b.accessibilityLabel = "关闭"
+        b.accessibilityLabel = "Close"
         return b
     }()
 
@@ -68,8 +68,8 @@ final class InviteFriendsPosterViewController: UIViewController {
         return s
     }()
 
-    private lazy var shareButton: UIButton = makePrimaryButton(title: "分享给好友", action: #selector(onShare))
-    private lazy var saveButton: UIButton = makeSecondaryButton(title: "保存到相册", action: #selector(onSaveToAlbum))
+    private lazy var shareButton: UIButton = makePrimaryButton(title: "Share", action: #selector(onShare))
+    private lazy var saveButton: UIButton = makeSecondaryButton(title: "Save to Photos", action: #selector(onSaveToAlbum))
 
     private var didPlayEntranceAnimation = false
 
@@ -217,9 +217,9 @@ final class InviteFriendsPosterViewController: UIViewController {
             }, completionHandler: { ok, err in
                 DispatchQueue.main.async {
                     if ok {
-                        self.showToast("已保存到相册")
+                        self.showToast("Saved to Photos")
                     } else {
-                        self.showToast(err?.localizedDescription ?? "保存失败")
+                        self.showToast(err?.localizedDescription ?? "Save failed")
                     }
                 }
             })
@@ -235,18 +235,18 @@ final class InviteFriendsPosterViewController: UIViewController {
                     if new == .authorized || new == .limited {
                         save()
                     } else {
-                        self.showToast("请在设置中允许访问相册以保存海报")
+                        self.showToast("Please allow Photos access in Settings to save the poster.")
                     }
                 }
             }
         default:
-            showToast("请在设置中允许「添加照片」以保存海报")
+            showToast("Please allow Add Photos permission in Settings to save the poster.")
         }
     }
 
     private func showToast(_ message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "好的", style: .default))
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
 }

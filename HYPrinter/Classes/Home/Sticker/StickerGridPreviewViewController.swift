@@ -23,7 +23,7 @@ final class StickerGridPreviewViewController: BaseViewController {
     }()
     override func buildSubviews() {
         super.buildSubviews()
-        title = "预览"
+        title = "Preview"
         view.backgroundColor = UIColor(hexString: "#EEF2F7")
 
         canvasCard.backgroundColor = .white
@@ -147,7 +147,7 @@ final class StickerGridPreviewViewController: BaseViewController {
         try? PrintHistoryStore.shared.saveImageCategoryPrint(
             images: [image],
             category: .sticker,
-            title: "贴纸打印（\(rows)×\(cols)）",
+            title: "Sticker Print (\(rows)×\(cols))",
             subtitle: nil
         )
         printController.present(animated: true, completionHandler: nil)

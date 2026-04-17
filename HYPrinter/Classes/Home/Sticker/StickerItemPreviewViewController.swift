@@ -14,7 +14,7 @@ final class StickerItemPreviewViewController: BaseViewController {
     private let imageView = UIImageView()
     private let nextButton: UIButton = {
         let b = UIButton(type: .custom)
-        b.setTitle("下一步", for: .normal)
+        b.setTitle("Next", for: .normal)
         b.setTitleColor(.white, for: .normal)
         b.titleLabel?.font = kboldFont(fontSize: 17)
         b.backgroundColor = kmainColor
@@ -24,7 +24,7 @@ final class StickerItemPreviewViewController: BaseViewController {
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "预览"
+        title = "Preview"
 
         imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)

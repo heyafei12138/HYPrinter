@@ -42,7 +42,7 @@ final class contactViewController: BaseViewController {
     
     private let retryButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("重新加载", for: .normal)
+        button.setTitle("Reload", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
         button.backgroundColor = kmainColor
@@ -75,7 +75,7 @@ final class contactViewController: BaseViewController {
     override func buildSubviews() {
         super.buildSubviews()
         
-        title = "联系人"
+        title = "Contacts"
         view.backgroundColor = UIColor(hexString: "#ECEFF7") ?? .systemGroupedBackground
         topBar.barBackgroundColor = .white
         
@@ -115,7 +115,7 @@ final class contactViewController: BaseViewController {
         printButton.addTarget(self, action: #selector(handlePrintButtonTap), for: .touchUpInside)
         retryButton.addTarget(self, action: #selector(handleRetryButtonTap), for: .touchUpInside)
         
-        applyState(.loading("正在读取联系人..."))
+        applyState(.loading("Loading contacts..."))
     }
 }
 
@@ -148,7 +148,7 @@ private extension contactViewController {
             pdfView.isHidden = true
             stateLabel.isHidden = false
             retryButton.isHidden = false
-            retryButton.setTitle("重新加载", for: .normal)
+            retryButton.setTitle("Reload", for: .normal)
             stateLabel.text = message
             updatePrintButton(isEnabled: false)
             
@@ -156,7 +156,7 @@ private extension contactViewController {
             pdfView.isHidden = true
             stateLabel.isHidden = false
             retryButton.isHidden = false
-            retryButton.setTitle(showSettings ? "去设置" : "重试", for: .normal)
+            retryButton.setTitle(showSettings ? "Settings" : "Retry", for: .normal)
             stateLabel.text = message
             updatePrintButton(isEnabled: false)
         }
@@ -172,7 +172,7 @@ private extension contactViewController {
 private extension contactViewController {
     
     func requestContactsAndGeneratePDF() {
-        applyState(.loading("正在读取联系人..."))
+        applyState(.loading("Loading contacts..."))
         
         switch CNContactStore.authorizationStatus(for: .contacts) {
         case .authorized:
@@ -190,7 +190,7 @@ private extension contactViewController {
             applyContactsDeniedState()
             
         @unknown default:
-            applyState(.failed("联系人权限状态异常，请稍后重试。", showSettings: false))
+            applyState(.failed("Contact permission status is abnormal. Please try again later.", showSettings: false))
         }
     }
     
@@ -219,21 +219,21 @@ private extension contactViewController {
                 DispatchQueue.main.async {
                     self.contacts = fetchedContacts
                     guard fetchedContacts.isEmpty == false else {
-                        self.applyState(.empty("当前没有可导出的联系人。"))
+                        self.applyState(.empty("No contacts are available for export."))
                         return
                     }
                     self.generatePDFPreview(with: fetchedContacts)
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.applyState(.failed("读取联系人失败，请稍后重试。", showSettings: false))
+                    self.applyState(.failed("Failed to read contacts. Please try again later.", showSettings: false))
                 }
             }
         }
     }
     
     func applyContactsDeniedState() {
-        applyState(.failed("请在系统设置中开启联系人权限后再继续导出。", showSettings: true))
+        applyState(.failed("Please enable Contacts permission in Settings before exporting.", showSettings: true))
     }
 }
 
@@ -242,7 +242,7 @@ private extension contactViewController {
     
     func generatePDFPreview(with contacts: [CNContact]) {
         cleanupHiddenWebView()
-        applyState(.loading("正在生成联系人预览..."))
+        applyState(.loading("Generating contact preview..."))
         
         let html = buildHTML(with: contacts)
         let webView = WKWebView(frame: CGRect(x: 0, y: 0, width: 595, height: 842), configuration: WKWebViewConfiguration())
@@ -257,7 +257,7 @@ private extension contactViewController {
         let timeoutWorkItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             self.cleanupHiddenWebView()
-            self.applyState(.failed("联系人预览生成超时，请重试。", showSettings: false))
+            self.applyState(.failed("Contact preview generation timed out. Please try again.", showSettings: false))
         }
         renderTimeoutWorkItem = timeoutWorkItem
         DispatchQueue.main.asyncAfter(deadline: .now() + 8.0, execute: timeoutWorkItem)
@@ -281,7 +281,7 @@ private extension contactViewController {
     
     func showPDF(_ url: URL) {
         guard let document = PDFDocument(url: url) else {
-            applyState(.failed("联系人 PDF 预览加载失败。", showSettings: false))
+            applyState(.failed("Failed to load contact PDF preview.", showSettings: false))
             return
         }
         
@@ -303,11 +303,11 @@ private extension contactViewController {
             }
             if contact.phoneNumbers.isEmpty == false {
                 let items = contact.phoneNumbers.map { "<li>\($0.value.stringValue.htmlEscaped)</li>" }.joined()
-                blocks.append("<p><strong>电话</strong></p><ul>\(items)</ul>")
+                blocks.append("<p><strong>Phone</strong></p><ul>\(items)</ul>")
             }
             if contact.emailAddresses.isEmpty == false {
                 let items = contact.emailAddresses.map { "<li>\(String($0.value).htmlEscaped)</li>" }.joined()
-                blocks.append("<p><strong>邮箱</strong></p><ul>\(items)</ul>")
+                blocks.append("<p><strong>Email</strong></p><ul>\(items)</ul>")
             }
             if contact.postalAddresses.isEmpty == false {
                 let items = contact.postalAddresses.map { address -> String in
@@ -318,7 +318,7 @@ private extension contactViewController {
                         .joined(separator: ", ")
                     return "<li>\(composed.htmlEscaped)</li>"
                 }.joined()
-                blocks.append("<p><strong>地址</strong></p><ul>\(items)</ul>")
+                blocks.append("<p><strong>Address</strong></p><ul>\(items)</ul>")
             }
             return "<section>\(blocks.joined())</section>"
         }.joined()
@@ -394,12 +394,12 @@ private extension contactViewController {
         let controller = UIPrintInteractionController.shared
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .general
-        info.jobName = "联系人"
+        info.jobName = "Contacts"
         controller.printInfo = info
         controller.printingItem = pdfURL
         try? PrintHistoryStore.shared.saveFilePrint(
             category: .contact,
-            title: "联系人打印",
+            title: "Contacts Print",
             subtitle: nil,
             copyingFileAt: pdfURL
         )
@@ -432,32 +432,32 @@ extension contactViewController: WKNavigationDelegate {
                     switch result {
                     case .success(let data):
                         guard let url = self.persistPDFData(data) else {
-                            self.applyState(.failed("联系人 PDF 保存失败。", showSettings: false))
+                            self.applyState(.failed("Failed to save contact PDF.", showSettings: false))
                             return
                         }
                         self.pdfURL = url
                         self.showPDF(url)
                     case .failure:
-                        self.applyState(.failed("联系人 PDF 生成失败，请重试。", showSettings: false))
+                        self.applyState(.failed("Failed to generate contact PDF. Please try again.", showSettings: false))
                     }
                 }
             }
         } else {
             cleanupHiddenWebView()
-            applyState(.failed("当前系统版本暂不支持联系人 PDF 生成。", showSettings: false))
+            applyState(.failed("The current iOS version does not support contact PDF generation.", showSettings: false))
         }
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         guard webView === hiddenWebView else { return }
         cleanupHiddenWebView()
-        applyState(.failed("联系人预览加载失败，请重试。", showSettings: false))
+        applyState(.failed("Failed to load contact preview. Please try again.", showSettings: false))
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         guard webView === hiddenWebView else { return }
         cleanupHiddenWebView()
-        applyState(.failed("联系人预览加载失败，请重试。", showSettings: false))
+        applyState(.failed("Failed to load contact preview. Please try again.", showSettings: false))
     }
 }
 

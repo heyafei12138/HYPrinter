@@ -19,7 +19,7 @@ final class StickerViewController: BaseViewController, UICollectionViewDataSourc
 
     private let nextButton: UIButton = {
         let b = UIButton(type: .custom)
-        b.setTitle("下一步", for: .normal)
+        b.setTitle("Next", for: .normal)
         b.setTitleColor(.white, for: .normal)
         b.titleLabel?.font = kboldFont(fontSize: 17)
         b.backgroundColor = UIColor(hexString: "#BFC7D2")
@@ -36,7 +36,7 @@ final class StickerViewController: BaseViewController, UICollectionViewDataSourc
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "贴纸"
+        title = "Stickers"
         view.backgroundColor = UIColor(hexString: "#EEF1F7") ?? kBgColor
 
         setupCategoryBar()
@@ -149,41 +149,41 @@ final class StickerViewController: BaseViewController, UICollectionViewDataSourc
         switch shape {
         case .rectangle:
             return [
-                StickerSheetTemplate(id: "rect_6", title: "6 格/张", sizeText: "2 × 3", pattern: GridPattern(rows: 3, columns: 2)),
-                StickerSheetTemplate(id: "rect_8", title: "8 格/张", sizeText: "2 × 4", pattern: GridPattern(rows: 4, columns: 2)),
-                StickerSheetTemplate(id: "rect_10", title: "10 格/张", sizeText: "2 × 5", pattern: GridPattern(rows: 5, columns: 2)),
-                StickerSheetTemplate(id: "rect_14", title: "14 格/张", sizeText: "2 × 7", pattern: GridPattern(rows: 7, columns: 2)),
-                StickerSheetTemplate(id: "rect_20", title: "20 格/张", sizeText: "2 × 10", pattern: GridPattern(rows: 10, columns: 2)),
-                StickerSheetTemplate(id: "rect_30", title: "30 格/张", sizeText: "3 × 10", pattern: GridPattern(rows: 10, columns: 3)),
-                StickerSheetTemplate(id: "rect_60", title: "60 格/张", sizeText: "4 × 15", pattern: GridPattern(rows: 15, columns: 4)),
-                StickerSheetTemplate(id: "rect_80", title: "80 格/张", sizeText: "4 × 20", pattern: GridPattern(rows: 20, columns: 4))
+                StickerSheetTemplate(id: "rect_6", title: "6 per page", sizeText: "2 × 3", pattern: GridPattern(rows: 3, columns: 2)),
+                StickerSheetTemplate(id: "rect_8", title: "8 per page", sizeText: "2 × 4", pattern: GridPattern(rows: 4, columns: 2)),
+                StickerSheetTemplate(id: "rect_10", title: "10 per page", sizeText: "2 × 5", pattern: GridPattern(rows: 5, columns: 2)),
+                StickerSheetTemplate(id: "rect_14", title: "14 per page", sizeText: "2 × 7", pattern: GridPattern(rows: 7, columns: 2)),
+                StickerSheetTemplate(id: "rect_20", title: "20 per page", sizeText: "2 × 10", pattern: GridPattern(rows: 10, columns: 2)),
+                StickerSheetTemplate(id: "rect_30", title: "30 per page", sizeText: "3 × 10", pattern: GridPattern(rows: 10, columns: 3)),
+                StickerSheetTemplate(id: "rect_60", title: "60 per page", sizeText: "4 × 15", pattern: GridPattern(rows: 15, columns: 4)),
+                StickerSheetTemplate(id: "rect_80", title: "80 per page", sizeText: "4 × 20", pattern: GridPattern(rows: 20, columns: 4))
             ]
         case .round:
             return [
-                StickerSheetTemplate(id: "round_4", title: "4 格/张", sizeText: "2 × 2", pattern: GridPattern(rows: 2, columns: 2)),
-                StickerSheetTemplate(id: "round_6", title: "6 格/张", sizeText: "2 × 3", pattern: GridPattern(rows: 3, columns: 2)),
-                StickerSheetTemplate(id: "round_9", title: "9 格/张", sizeText: "3 × 3", pattern: GridPattern(rows: 3, columns: 3)),
-                StickerSheetTemplate(id: "round_12", title: "12 格/张", sizeText: "3 × 4", pattern: GridPattern(rows: 4, columns: 3)),
-                StickerSheetTemplate(id: "round_20", title: "20 格/张", sizeText: "4 × 5", pattern: GridPattern(rows: 5, columns: 4)),
-                StickerSheetTemplate(id: "round_30", title: "30 格/张", sizeText: "5 × 6", pattern: GridPattern(rows: 6, columns: 5)),
-                StickerSheetTemplate(id: "round_80", title: "80 格/张", sizeText: "8 × 10", pattern: GridPattern(rows: 10, columns: 8))
+                StickerSheetTemplate(id: "round_4", title: "4 per page", sizeText: "2 × 2", pattern: GridPattern(rows: 2, columns: 2)),
+                StickerSheetTemplate(id: "round_6", title: "6 per page", sizeText: "2 × 3", pattern: GridPattern(rows: 3, columns: 2)),
+                StickerSheetTemplate(id: "round_9", title: "9 per page", sizeText: "3 × 3", pattern: GridPattern(rows: 3, columns: 3)),
+                StickerSheetTemplate(id: "round_12", title: "12 per page", sizeText: "3 × 4", pattern: GridPattern(rows: 4, columns: 3)),
+                StickerSheetTemplate(id: "round_20", title: "20 per page", sizeText: "4 × 5", pattern: GridPattern(rows: 5, columns: 4)),
+                StickerSheetTemplate(id: "round_30", title: "30 per page", sizeText: "5 × 6", pattern: GridPattern(rows: 6, columns: 5)),
+                StickerSheetTemplate(id: "round_80", title: "80 per page", sizeText: "8 × 10", pattern: GridPattern(rows: 10, columns: 8))
             ]
         case .oval:
             return [
-                StickerSheetTemplate(id: "oval_6", title: "6 格/张", sizeText: "3 × 2", pattern: GridPattern(rows: 3, columns: 2)),
-                StickerSheetTemplate(id: "oval_8", title: "8 格/张", sizeText: "4 × 2", pattern: GridPattern(rows: 4, columns: 2)),
-                StickerSheetTemplate(id: "oval_10", title: "10 格/张", sizeText: "5 × 2", pattern: GridPattern(rows: 5, columns: 2)),
-                StickerSheetTemplate(id: "oval_14", title: "18 格/张", sizeText: "6 × 3", pattern: GridPattern(rows: 6, columns: 3)),
-                StickerSheetTemplate(id: "oval_20", title: "24 格/张", sizeText: "8 × 3", pattern: GridPattern(rows: 8, columns: 3))
+                StickerSheetTemplate(id: "oval_6", title: "6 per page", sizeText: "3 × 2", pattern: GridPattern(rows: 3, columns: 2)),
+                StickerSheetTemplate(id: "oval_8", title: "8 per page", sizeText: "4 × 2", pattern: GridPattern(rows: 4, columns: 2)),
+                StickerSheetTemplate(id: "oval_10", title: "10 per page", sizeText: "5 × 2", pattern: GridPattern(rows: 5, columns: 2)),
+                StickerSheetTemplate(id: "oval_14", title: "18 per page", sizeText: "6 × 3", pattern: GridPattern(rows: 6, columns: 3)),
+                StickerSheetTemplate(id: "oval_20", title: "24 per page", sizeText: "8 × 3", pattern: GridPattern(rows: 8, columns: 3))
             ]
         case .square:
             return [
-                StickerSheetTemplate(id: "sq_4", title: "4 格/张", sizeText: "2 × 2", pattern: GridPattern(rows: 2, columns: 2)),
-                StickerSheetTemplate(id: "sq_6", title: "6 格/张", sizeText: "3 × 2", pattern: GridPattern(rows: 3, columns: 2)),
-                StickerSheetTemplate(id: "sq_9", title: "9 格/张", sizeText: "3 × 3", pattern: GridPattern(rows: 3, columns: 3)),
-                StickerSheetTemplate(id: "sq_12", title: "12 格/张", sizeText: "4 × 3", pattern: GridPattern(rows: 4, columns: 3)),
-                StickerSheetTemplate(id: "sq_20", title: "20 格/张", sizeText: "5 × 4", pattern: GridPattern(rows: 5, columns: 4)),
-                StickerSheetTemplate(id: "sq_80", title: "80 格/张", sizeText: "10 × 8", pattern: GridPattern(rows: 10, columns: 8))
+                StickerSheetTemplate(id: "sq_4", title: "4 per page", sizeText: "2 × 2", pattern: GridPattern(rows: 2, columns: 2)),
+                StickerSheetTemplate(id: "sq_6", title: "6 per page", sizeText: "3 × 2", pattern: GridPattern(rows: 3, columns: 2)),
+                StickerSheetTemplate(id: "sq_9", title: "9 per page", sizeText: "3 × 3", pattern: GridPattern(rows: 3, columns: 3)),
+                StickerSheetTemplate(id: "sq_12", title: "12 per page", sizeText: "4 × 3", pattern: GridPattern(rows: 4, columns: 3)),
+                StickerSheetTemplate(id: "sq_20", title: "20 per page", sizeText: "5 × 4", pattern: GridPattern(rows: 5, columns: 4)),
+                StickerSheetTemplate(id: "sq_80", title: "80 per page", sizeText: "10 × 8", pattern: GridPattern(rows: 10, columns: 8))
             ]
         }
     }

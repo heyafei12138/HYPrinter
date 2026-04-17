@@ -43,7 +43,7 @@ final class TextsViewController: BaseViewController, UITextViewDelegate {
     
     private let placeholderLabel: UILabel = {
         let label = UILabel()
-        label.text = "请输入或粘贴要打印的文本内容"
+        label.text = "Enter or paste text content to print"
         label.font = .systemFont(ofSize: 16)
         label.textColor = UIColor(hexString: "#A0A7B4") ?? .systemGray3
         label.numberOfLines = 2
@@ -65,7 +65,7 @@ final class TextsViewController: BaseViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "文本"
+        title = "Text"
         setupKeyboardObservers()
     }
     
@@ -289,12 +289,12 @@ private extension TextsViewController {
         let printController = UIPrintInteractionController.shared
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general
-        printInfo.jobName = "文本打印"
+        printInfo.jobName = "Text Print"
         printController.printInfo = printInfo
         printController.printingItem = fileURL
         try? PrintHistoryStore.shared.saveFilePrint(
             category: .text,
-            title: "文本打印",
+            title: "Text Print",
             subtitle: nil,
             copyingFileAt: fileURL
         )
@@ -303,11 +303,11 @@ private extension TextsViewController {
     
     func presentPrintErrorAlert() {
         let alert = UIAlertController(
-            title: "打印失败",
-            message: "文本内容生成 PDF 失败，请稍后重试。",
+            title: "Print Failed",
+            message: "Failed to generate a PDF from text content. Please try again later.",
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "知道了", style: .cancel))
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel))
         present(alert, animated: true)
     }
     

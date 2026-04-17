@@ -86,8 +86,8 @@ final class PointsManager {
         let last = defaults.string(forKey: lastAutoCheckInDayKey)
         guard last != today else { return nil }
         defaults.set(today, forKey: lastAutoCheckInDayKey)
-        applyDelta(PointsManager.dailyAutoCheckInPoints, title: "每日首次打开自动签到")
-        return "今日已为您自动签到，获得 \(PointsManager.dailyAutoCheckInPoints) 积分。"
+        applyDelta(PointsManager.dailyAutoCheckInPoints, title: "Daily first launch auto check-in")
+        return "Auto check-in completed for today. You earned \(PointsManager.dailyAutoCheckInPoints) points."
     }
 
     /// 打印前扣减 5 积分；不足则弹窗并返回 false。
@@ -96,24 +96,24 @@ final class PointsManager {
         guard balance >= PointsManager.printCost else {
             DispatchQueue.main.async {
                 let alert = UIAlertController(
-                    title: "积分不足",
-                    message: "每次打印需消耗 \(PointsManager.printCost) 积分，当前剩余 \(self.balance) 积分。",
+                    title: "Insufficient Points",
+                    message: "Each print costs \(PointsManager.printCost) points. You currently have \(self.balance) points.",
                     preferredStyle: .alert
                 )
-                alert.addAction(UIAlertAction(title: "好的", style: .default))
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
                 presenter?.present(alert, animated: true)
             }
             return false
         }
-        applyDelta(-PointsManager.printCost, title: "打印消耗")
+        applyDelta(-PointsManager.printCost, title: "Print cost")
         return true
     }
 
     /// 签到页手动签到：每次点击 +20（与每日首次打开自动 +100 独立）。
     func performManualSignIn() -> (ok: Bool, message: String) {
-        applyDelta(PointsManager.manualCheckInPoints, title: "手动签到")
+        applyDelta(PointsManager.manualCheckInPoints, title: "Manual check-in")
         resetHomeFloatingCheckInAfterManualSignIn()
-        return (true, "获得 \(PointsManager.manualCheckInPoints) 积分！")
+        return (true, "You earned \(PointsManager.manualCheckInPoints) points!")
     }
 
     /// 手动签到成功后：关闭「可签到」状态并让首页悬浮重新进入 60 秒倒计时。

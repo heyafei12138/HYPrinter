@@ -198,7 +198,7 @@ final class HomeCheckInFloatingView: UIView {
 
     private func updateCenterText() {
         if isUnlocked {
-            centerLabel.text = "签到"
+            centerLabel.text = "Check in"
             centerLabel.textColor = UIColor(hexString: "#1D212C")
         } else {
             centerLabel.text = "\(remainingSeconds)"

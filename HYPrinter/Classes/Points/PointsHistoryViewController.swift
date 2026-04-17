@@ -32,17 +32,17 @@ final class PointsHistoryViewController: BaseViewController {
         l.textAlignment = .left
         l.numberOfLines = 0
         l.text = """
-        【当前活动说明】
-        · 每日首次打开 App 自动获得 \(PointsManager.dailyAutoCheckInPoints) 积分。
-        · 首页悬浮签到倒计时结束后可手动签到，每次 +\(PointsManager.manualCheckInPoints) 积分。
-        · 每次打印消耗 \(PointsManager.printCost) 积分，明细见上表。
+        [Current Activity Rules]
+        · First app launch each day automatically gives \(PointsManager.dailyAutoCheckInPoints) points.
+        · After the floating check-in countdown on Home ends, manual check-in gives +\(PointsManager.manualCheckInPoints) points each time.
+        · Each print costs \(PointsManager.printCost) points. See details above.
         """
         return l
     }()
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "积分明细"
+        title = "Points Details"
         allowsInteractivePop = true
         view.backgroundColor = UIColor(hexString: "#EEF1F7") ?? kBgColor
 
@@ -82,7 +82,7 @@ final class PointsHistoryViewController: BaseViewController {
     private func makeEmptyView() -> UIView {
         let v = UIView()
         let l = UILabel()
-        l.text = "暂无积分记录"
+        l.text = "No points records yet."
         l.textColor = UIColor(hexString: "#9AA4B2")
         l.font = .systemFont(ofSize: 15, weight: .medium)
         l.textAlignment = .center

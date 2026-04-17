@@ -15,7 +15,7 @@ final class StickerLibraryViewController: BaseViewController, UITableViewDataSou
 
     override func buildSubviews() {
         super.buildSubviews()
-        title = "选择贴纸"
+        title = "Choose Stickers"
         view.backgroundColor = UIColor(hexString: "#EEF1F7")
 
         tableView.backgroundColor = .clear
@@ -242,7 +242,7 @@ private final class StickerThumbCell: UICollectionViewCell {
     func configurePlaceholder() {
         imageView.image = nil
         let label = UILabel()
-        label.text = "暂无"
+        label.text = "Empty"
         label.textAlignment = .center
         label.textColor = UIColor(hexString: "#78818D")
         label.font = kmiddleFont(fontSize: 12)

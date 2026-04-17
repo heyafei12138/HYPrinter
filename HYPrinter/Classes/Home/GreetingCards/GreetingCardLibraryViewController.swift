@@ -15,7 +15,7 @@ final class GreetingCardLibraryViewController: BaseViewController, UICollectionV
 
     private let emptyLabel: UILabel = {
         let l = UILabel()
-        l.text = "暂无素材"
+        l.text = "No templates yet."
         l.textAlignment = .center
         l.textColor = UIColor(hexString: "#78818D")
         l.font = kmiddleFont(fontSize: 14)
