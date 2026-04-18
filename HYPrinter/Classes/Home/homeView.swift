@@ -209,7 +209,7 @@ final class HomeLargeFeatureCardView: UIView {
             make.height.equalTo(90)
         }
         titleLabel.snp.makeConstraints { make in
-            make.left.right.equalTo(subtitleLabel)
+            make.left.equalTo(subtitleLabel)
             make.top.equalToSuperview().inset(16)
 
         }

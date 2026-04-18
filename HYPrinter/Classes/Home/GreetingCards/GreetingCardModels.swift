@@ -71,13 +71,13 @@ enum GreetingCardDataLoader {
            
         ]
         let planners = [
-            CardItem(id: "p1", source: .named("refresh_printer"), title: nil),
-            CardItem(id: "p2", source: .named("icloud_home_icon"), title: nil),
-            CardItem(id: "p3", source: .named("email_home_icon"), title: nil),
-            CardItem(id: "p4", source: .named("ic_photo_img"), title: nil)
-//            CardItem(id: "p1", source: .named("greet_ic1"), title: nil),
-//            CardItem(id: "p2", source: .named("greet_ic2"), title: nil),
-//            CardItem(id: "p3", source: .named("greet_ic3"), title: nil),
+//            CardItem(id: "p1", source: .named("refresh_printer"), title: nil),
+//            CardItem(id: "p2", source: .named("icloud_home_icon"), title: nil),
+//            CardItem(id: "p3", source: .named("email_home_icon"), title: nil),
+//            CardItem(id: "p4", source: .named("ic_photo_img"), title: nil)
+            CardItem(id: "p1", source: .named("greet_ic1"), title: nil),
+            CardItem(id: "p2", source: .named("greet_ic2"), title: nil),
+            CardItem(id: "p3", source: .named("greet_ic3"), title: nil),
             
         ]
         return [

@@ -17,7 +17,7 @@ final class PrintersVC: BaseViewController {
         case failed(String)
     }
     
-    var pageHeaderTitle: String = "HYPrinter" {
+    var pageHeaderTitle: String = "PrintLink" {
         didSet {
             titleLabel.text = pageHeaderTitle
         }

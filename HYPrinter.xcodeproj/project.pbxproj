@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0479529D2F9371CE00F22D56 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0479529C2F9371CE00F22D56 /* PrivacyInfo.xcprivacy */; };
 		04BC366E2F88AA1500567CA7 /* JKSwiftExtension in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC366D2F88AA1500567CA7 /* JKSwiftExtension */; };
 		04BC3CF32F8C86C500567CA7 /* ZLImageEditor in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC3CF22F8C86C500567CA7 /* ZLImageEditor */; };
 		DBC09E0C99424B1F1DBDB55F /* Pods_HYPrinter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CD8953FA4E2C2FCFB75ED1 /* Pods_HYPrinter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0479529C2F9371CE00F22D56 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		04BC34252F88A34700567CA7 /* HYPrinter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HYPrinter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CD8953FA4E2C2FCFB75ED1 /* Pods_HYPrinter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HYPrinter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCD9F747FF7B16F527493ABF /* Pods-HYPrinter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HYPrinter.debug.xcconfig"; path = "Target Support Files/Pods-HYPrinter/Pods-HYPrinter.debug.xcconfig"; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 		04BC341C2F88A34700567CA7 = {
 			isa = PBXGroup;
 			children = (
+				0479529C2F9371CE00F22D56 /* PrivacyInfo.xcprivacy */,
 				04BC34272F88A34700567CA7 /* HYPrinter */,
 				04BC34262F88A34700567CA7 /* Products */,
 				9A67AFC1DFB76A60F649F573 /* Pods */,
@@ -157,6 +160,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0479529D2F9371CE00F22D56 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,9 +231,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FQ89HCKDX4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HYPrinter/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "掌上打印";
+				INFOPLIST_KEY_CFBundleDisplayName = PrintLink;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to scan documents.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Contacts access is required to generate printable contact content.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Local Network access is required to search for available printers.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library access is required to save invitation posters.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -241,7 +250,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.print.HYPrinter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.print.PrintLink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -265,9 +274,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = FQ89HCKDX4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HYPrinter/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "掌上打印";
+				INFOPLIST_KEY_CFBundleDisplayName = PrintLink;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to scan documents.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Contacts access is required to generate printable contact content.";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Local Network access is required to search for available printers.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Photo Library access is required to save invitation posters.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -279,7 +293,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.print.HYPrinter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.print.PrintLink;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

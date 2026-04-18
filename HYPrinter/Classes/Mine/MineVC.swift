@@ -61,7 +61,7 @@ final class MineVC: BaseViewController {
 
     private let nicknameLabel: UILabel = {
         let l = UILabel()
-        l.text = "HYPrinter User 9834"
+        l.text = "PrintLink User"
         l.font = .systemFont(ofSize: 23, weight: .semibold)
         l.textColor = .white
         l.textAlignment = .center
@@ -191,10 +191,10 @@ final class MineVC: BaseViewController {
             title: "Support",
             subtitle: "Get help"
         )
-        cardsStack.addArrangedSubview(rewardsCard)
+//        cardsStack.addArrangedSubview(rewardsCard)
 //        cardsStack.addArrangedSubview(inviteCard)
         cardsStack.addArrangedSubview(supportCard)
-        [rewardsCard, supportCard].forEach { $0.snp.makeConstraints { $0.height.equalTo(110) } }
+        [ supportCard].forEach { $0.snp.makeConstraints { $0.height.equalTo(110) } }
 
         listCard.backgroundColor = .white
         listCard.layer.cornerRadius = 20
@@ -232,7 +232,7 @@ final class MineVC: BaseViewController {
     private func buildListRows() {
         let rows: [(icon: String, title: String, showsArrow: Bool, detail: String?, action: () -> Void)] = [
 //            ("list.bullet.rectangle", "Points History", true, nil, { [weak self] in self?.openPointsHistory() }),
-            ("checkmark.seal.fill", "Daily Check-in", true, nil, { [weak self] in self?.openSignInPage() }),
+//            ("checkmark.seal.fill", "Daily Check-in", true, nil, { [weak self] in self?.openSignInPage() }),
             ("person.2.circle.fill", "Invite Friends", true, nil, { [weak self] in self?.openInviteFriends() }),
             ("lock.shield.fill", "Privacy Policy", true, nil, { [weak self] in self?.openPrivacy() }),
             ("info.circle.fill", "About", true, nil, { [weak self] in self?.showAbout() }),
@@ -302,17 +302,17 @@ final class MineVC: BaseViewController {
     }
 
     private func openPrivacy() {
-        let url = URL(string: "https://www.apple.com/legal/privacy/")!
+        let url = URL(string: "https://sites.google.com/view/printlink-privacy")!
         let vc = SFSafariViewController(url: url)
         vc.modalPresentationStyle = .pageSheet
         present(vc, animated: true)
     }
 
     private func showAbout() {
-        let msg = "\(MineVC.appVersionFootnoteString())\n\nA convenient mobile printing app."
-        let alert = UIAlertController(title: "About", message: msg, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        let url = URL(string: "https://sites.google.com/view/printlink-us")!
+        let vc = SFSafariViewController(url: url)
+        vc.modalPresentationStyle = .pageSheet
+        present(vc, animated: true)
     }
 
     private func requestReview() {
@@ -331,13 +331,14 @@ final class MineVC: BaseViewController {
 
     /// 可在 `Info.plist` 中配置 `FeedbackEmail`（收件人）；未配置时收件人为空，由用户自行填写。
     private static func feedbackRecipientEmail() -> String? {
-        guard let raw = Bundle.main.object(forInfoDictionaryKey: "FeedbackEmail") as? String else { return nil }
+        
+        let raw = "649796846@163.com"
         let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed
     }
 
     private func openEmailFeedback() {
-        let subject = "HYPrinter Feedback"
+        let subject = "PrintLink Feedback"
         let body = "Please describe your issue or suggestion:\n\n\n——\n\(MineVC.appVersionFootnoteString())"
 
         if MFMailComposeViewController.canSendMail() {

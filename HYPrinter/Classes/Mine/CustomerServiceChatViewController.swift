@@ -80,7 +80,7 @@ final class CustomerServiceChatViewController: BaseViewController {
     private var inputBottomConstraint: Constraint?
 
     private static let agentScripts: [String] = [
-        "Hello, this is HYPrinter online support. Glad to help you.",
+        "Hello, this is PrintLink online support. Glad to help you.",
         "Are you currently having issues with printer connection, document printing, or something else?",
         "Please briefly describe what happened, for example whether it shows offline or gets stuck at a step. I will help you troubleshoot step by step.",
         "If needed, you can also describe screenshots or logs in the input field below, and we will provide suggestions based on your case.",

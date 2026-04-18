@@ -295,21 +295,18 @@ extension MainTabbarVC: VNDocumentCameraViewControllerDelegate {
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                       didFinishWith scan: VNDocumentCameraScan) {
-        controller.dismiss(animated: true) { [weak self] in
-            guard let self else { return }
-            
-            var pageImages: [UIImage] = []
-            for index in 0..<scan.pageCount {
-                pageImages.append(scan.imageOfPage(at: index))
+        controller.dismiss(animated: true) {
+            // 处理扫描结果
+            var scannedImages: [UIImage] = []
+
+            for i in 0..<scan.pageCount {
+                let image = scan.imageOfPage(at: i)
+                scannedImages.append(image)
             }
             
-            self.onScannedImages?(pageImages)
-            
-            if let receiver = self.currentTopNavigationController()?.topViewController as? DocumentScanResultReceiving {
-                receiver.didReceiveScannedImages(pageImages)
-            } else if let receiver = self.selectedViewController as? DocumentScanResultReceiving {
-                receiver.didReceiveScannedImages(pageImages)
-            }
+
+            let vc = PhotoPreviewController(images: scannedImages)
+            kWindow?.rootViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
